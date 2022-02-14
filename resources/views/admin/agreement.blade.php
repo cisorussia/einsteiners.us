@@ -1,9 +1,9 @@
 @extends('../template/layout')
 @section('ogmeta')
-    <meta property="og:url" content="<?echo url('/');?>/">
+    <meta property="og:url" content="{{ route('home') }}">
     <meta property="og:title" content="Документы - Einsteiners - Сервис организации мероприятий">
     <meta property="og:description" content="Документы - Einsteiners - Сервис организации мероприятий">
-    <meta property="og:image" content="<?echo url('/');?>/images/ogimage.jpg">
+    <meta property="og:image" content="{{ route('home') }}/images/ogimage.jpg">
 @endsection
 @section('stylesheet')
     

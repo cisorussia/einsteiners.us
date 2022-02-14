@@ -1,0 +1,20 @@
+---
+name: Check domainname (PR_target)
+on: [pull_request_target]
+jobs:
+  build:
+    name: Find substring job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+      - name: Run bash script
+        shell: bash
+        run: sh -c .github/actions/find-substring/find-substring.sh
+      - name: Create Commit Comment, if fail
+        if: ${{ failure() }}
+        uses: peter-evans/commit-comment@v1
+        with:
+          body: Domain name should not be used in the source code

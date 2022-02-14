@@ -16,7 +16,7 @@ name: Stage deployment
 # Start the job on all push to master #
 #######################################
 on:
-  pull_request:
+  pull_request_target:
     branches: [master]
     types: [opened, reopened, synchronize]
 
@@ -65,7 +65,9 @@ jobs:
           echo $BUILD_DATE
           echo $BUILD_DATE_SQUEEZED
           echo $BUILD_REPO
-          echo $BUILD_OWNER_REPO
+          echo "owner/repo: $BUILD_OWNER_REPO"
+          echo "prev commit_id: ${{ github.event.pull_request.head.sha }}"
+          echo "merge commit_id: ${{ github.sha }}"
         env:
           BUILD_RELEASE: ${{ steps.set_variables.outputs.BUILD_RELEASE }}
           BUILD_RELEASE_MAJOR: ${{ steps.set_variables.outputs.BUILD_RELEASE_MAJOR }}
@@ -78,8 +80,10 @@ jobs:
       # Checkout the code base #
       ##########################
       - name: Checkout Code
-        uses: actions/checkout@v2.3.4
-
+        uses: actions/checkout@v2
+        with:
+          ref: "refs/pull/${{ github.event.number }}/merge"
+          
       ########################
       # Setup Docker build X #
       ########################
@@ -116,12 +120,13 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           build-args: |
-            BUILD_DATE=${{ env.BUILD_DATE }}
+            BUILD_DATE=${{ steps.set_variables.outputs.BUILD_DATE }}
             BUILD_REVISION=${{ github.sha }}
             BUILD_VERSION=${{ github.sha }}
             BUILD_REPO=${{ steps.set_variables.outputs.BUILD_REPO }}
             BUILD_OWNER_REPO=${{ steps.set_variables.outputs.BUILD_OWNER_REPO }}
-          # target: app
+            BUILD_COMMIT_SHA=${{ github.event.pull_request.head.sha }}
+
           push: true
           tags: |
             ghcr.io/ivankuchin/${{ steps.set_variables.outputs.BUILD_REPO }}-stage:${{ steps.set_variables.outputs.BUILD_DATE_SQUEEZED }}

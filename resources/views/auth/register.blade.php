@@ -1,7 +1,6 @@
 @extends('../template/layout')
 @section('ogmeta')
-    <meta property="og:url" content="<?echo url('/');?>/">
-    <meta property="og:url" content="<?echo url('/');?>/">
+    <meta property="og:url" content="{{ route('home') }}">
     @if(App::isLocale('ru'))
         <meta property="og:title" content="Einsteiners - Сервис организации мероприятий">
         <meta property="og:description" content="Einsteiners - Сервис организации мероприятий">
@@ -9,7 +8,7 @@
         <meta property="og:title" content="Einsteiners - Event Management Service">
         <meta property="og:description" content="Einsteiners - Event Management Service">
     @endif
-    <meta property="og:image" content="<?echo url('/');?>/images/ogimage.jpg">
+    <meta property="og:image" content="{{ route('home') }}/images/ogimage.jpg">
 @endsection
 @section('header-style')
 

@@ -366,7 +366,7 @@
                                             @if($event->active == 0)
                                                 <h2>{{ $event->name }}</h2>
                                             @else
-                                                <a href="<?echo url('/');?>/event/view/{{ $event->link }}" title="{{ $event->name }}">
+                                                <a href="{{ route('home') }}/event/view/{{ $event->link }}" title="{{ $event->name }}">
                                                     <h2>{{ $event->name }}</h2>
                                                 </a>
                                             @endif
@@ -415,7 +415,7 @@
                                                         <span class="uk-text-link" id="copy-{{ $event->id }}">{{ __('LanDeactiveAdminMessage') }}</span>
                                                     @else
                                                         <span class="uk-label-link">{{ __('LanShareLink') }}</span>
-                                                        <span class="uk-text-link" id="copy-{{ $event->id }}"><?echo url('/');?>/event/view/{{ $event->link }}</span>
+                                                        <span class="uk-text-link" id="copy-{{ $event->id }}">{{ route('home') }}/event/view/{{ $event->link }}</span>
                                                     @endif
                                                     
                                                 </div>

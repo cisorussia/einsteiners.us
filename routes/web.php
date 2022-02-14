@@ -5,12 +5,14 @@ use Illuminate\Support\Facades\App;
 use App\Models\Payment;
 
 use Illuminate\Support\Facades\URL;
+
 /*
 if (env('APP_ENV') === 'production') {
     URL::forceScheme('https');
 }
 */
 URL::forceScheme('https');
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

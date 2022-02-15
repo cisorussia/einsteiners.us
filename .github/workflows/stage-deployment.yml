@@ -39,12 +39,15 @@ jobs:
       # Start deployment       #
       ##########################
       - name: start deployment
-        uses: bobheadxi/deployments@v0.4.3
+        uses: bobheadxi/deployments@master
         id: deployment
         with:
           step: start
           token: ${{ secrets.GITHUB_TOKEN }}
           env: staging
+          ref: "refs/pull/${{ github.event.number }}/head"
+          description: "depl_id: ${{ github.event.deployment.id }}, ref_id: ${{ github.head_ref }}"
+          log_args: true
 
      #############################
      # Init deployment variables #
@@ -125,7 +128,9 @@ jobs:
             BUILD_VERSION=${{ github.sha }}
             BUILD_REPO=${{ steps.set_variables.outputs.BUILD_REPO }}
             BUILD_OWNER_REPO=${{ steps.set_variables.outputs.BUILD_OWNER_REPO }}
-            BUILD_COMMIT_SHA=${{ github.event.pull_request.head.sha }}
+            BUILD_COMMIT_SHA=${{ github.event.pull_request.head.sha }}           # must be removed from here and Dockerfile
+            BUILD_BASE_COMMIT_ID=${{ github.sha }}
+            BUILD_PR_HEAD_COMMIT_ID=${{ github.event.pull_request.head.sha }}
 
           push: true
           tags: |
@@ -135,7 +140,7 @@ jobs:
       # Stop deployment        #
       ##########################
       - name: update deployment status
-        uses: bobheadxi/deployments@v0.4.3
+        uses: bobheadxi/deployments@master
         if: always()
         with:
           step: finish

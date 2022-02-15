@@ -10,11 +10,17 @@ jobs:
         uses: actions/checkout@v2
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
+          
       - name: Run bash script
         shell: bash
         run: sh -c .github/actions/find-substring/find-substring.sh
+        
       - name: Create Commit Comment, if fail
         if: ${{ failure() }}
-        uses: peter-evans/commit-comment@v1
-        with:
-          body: Domain name should not be used in the source code
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.number }}/comments \
+            -d '{"body":"Domain name should not be in the source code"}'

@@ -50,15 +50,17 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 # move config file to separate dircetory  #
 # this will help to mount it from k8s     #
 ###########################################
-RUN mkdir config_env && cp .env.example config_env/.env && ln -s config_env/.env
+# RUN mkdir config_env && cp .env.example config_env/.env && ln -s config_env/.env
+RUN ln -s ../.env ./public/.env
 
 ########################
 # laravel dependencies #
 ########################
-RUN php artisan storage:link
-RUN php artisan livewire:publish
-RUN php artisan key:generate
+# RUN php artisan storage:link
+# RUN php artisan livewire:publish
+# RUN php artisan key:generate
 
 EXPOSE 8000
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
+#CMD ["php", "artisan", "serve", "--host=0.0.0.0"]
+CMD ["./docker/entrypoint.sh"]

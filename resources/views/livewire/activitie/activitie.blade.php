@@ -601,7 +601,7 @@
                                             @if($activitie->active == 0)
                                                 <h2>{{ $activitie->name }} @if($activitie->age)<span>{{ $activitie->age }}</span>@endif</h2>
                                             @else
-                                                <a href="<?echo url('/');?>/activities/{{ $activitie->id }}" title="{{ $activitie->name }}">
+                                                <a href="{{ route('home') }}/activities/{{ $activitie->id }}" title="{{ $activitie->name }}">
                                                     <h2>{{ $activitie->name }} @if($activitie->age)<span>{{ $activitie->age }}</span>@endif</h2>
                                                 </a>
                                             @endif
@@ -650,7 +650,7 @@
                                                         <span class="uk-text-link" id="copy-{{ $activitie->id }}">{{ __('LanDeactiveAdminMessage') }}</span>
                                                     @else
                                                         <span class="uk-label-link">{{ __('LanShareLink') }}</span>
-                                                        <span class="uk-text-link" id="copy-{{ $activitie->id }}"><?echo url('/');?>/activities/{{ $activitie->id }}</span>
+                                                        <span class="uk-text-link" id="copy-{{ $activitie->id }}">{{ route('home') }}/activities/{{ $activitie->id }}</span>
                                                     @endif
                                                 </div>
                                             </div>

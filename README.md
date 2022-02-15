@@ -7,4 +7,4 @@ Web-site front end and back end
 - Production container `xxxx-app`
 
 - Staging container `xxx-stage`
-Once PR-created, synchronized with `master-branch` stage-container will be created and pushed to staging environment available at https://demo.einsteiners.us
+Once PR-created, synchronized with `master-branch` stage-container will be created and pushed to staging environment

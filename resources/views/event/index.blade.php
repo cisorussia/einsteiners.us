@@ -1,9 +1,9 @@
 @extends('../template/layout')
 @section('ogmeta')
-    <meta property="og:url" content="<?echo url('/');?>/">
+    <meta property="og:url" content="{{ route('home') }}">
     <meta property="og:title" content="События - Einsteiners - Сервис организации мероприятий">
     <meta property="og:description" content="События - Einsteiners - Сервис организации мероприятий">
-    <meta property="og:image" content="<?echo url('/');?>/images/ogimage.jpg">
+    <meta property="og:image" content="{{ route('home') }}/images/ogimage.jpg">
 @endsection
 @section('stylesheet')
     
@@ -254,7 +254,7 @@
                                                 <div>
                                                     <div class="uk-grid-small uk-flex uk-flex-middle">
                                                         <div>
-                                                            <a href="<?echo url('/');?>/event/view/{{ $event['link'] }}" title="{{ $event['name'] }}">
+                                                            <a href="{{ route('home') }}/event/view/{{ $event['link'] }}" title="{{ $event['name'] }}">
                                                                 <h2>{{ $event['name'] }}</h2>
                                                             </a>
                                                         </div>
@@ -277,7 +277,7 @@
                                                         <div class="uk-grid uk-grid-collapse uk-flex uk-flex-middle" data-uk-grid>
                                                             <div class="uk-width-expand@xs">
                                                                 <div class="uk-flex uk-flex-middle">
-                                                                    <span class="uk-icon-link" data-uk-icon="icon: link"></span> <span class="uk-label-link">Поделиться ссылкой:</span> <span class="uk-text-link" id="copy-{{ $event['id'] }}"><?echo url('/');?>/event/view/{{ $event['link'] }}</span>
+                                                                    <span class="uk-icon-link" data-uk-icon="icon: link"></span> <span class="uk-label-link">Поделиться ссылкой:</span> <span class="uk-text-link" id="copy-{{ $event['id'] }}">{{ route('home') }}/event/view/{{ $event['link'] }}</span>
                                                                 </div>
                                                             </div>
                                                             <div class="uk-width-auto@xs">

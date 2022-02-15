@@ -117,7 +117,9 @@ jobs:
             BUILD_VERSION=${{ github.sha }}
             BUILD_REPO=${{ steps.set_variables.outputs.BUILD_REPO }}
             BUILD_OWNER_REPO=${{ steps.set_variables.outputs.BUILD_OWNER_REPO }}
-            BUILD_COMMIT_SHA=${{ github.sha }}
+            BUILD_COMMIT_SHA=${{ github.sha }}                 # must be removed from here and Dockerfile
+            BUILD_BASE_COMMIT_ID=${{ github.sha }}
+            BUILD_PR_HEAD_COMMIT_ID=${{ github.event.pull_request.head.sha }}
           push: true
           tags: |
             ghcr.io/ivankuchin/${{ steps.set_variables.outputs.BUILD_REPO }}-app:${{ steps.set_variables.outputs.BUILD_RELEASE }}

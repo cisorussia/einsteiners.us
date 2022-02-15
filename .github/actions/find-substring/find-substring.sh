@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-grep -r "demo.einsteiners.us" ./*
+grep -r --exclude-dir=.github "demo.einsteiners.us" ./* .[^.]*
 
 if [ $? == 0 ]
   then

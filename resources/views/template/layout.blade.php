@@ -1,15 +1,15 @@
 <!DOCTYPE HTML>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" prefix="og: http://ogp.me/ns#">
     <head>
-        <? /* Component: Common ====================================================*/ ?>
+        {{-- Component: Common ==================================================== --}}
         @yield('header')
         <base href="/"/>
         <meta name="Robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
         <meta name="rights" content="© 2020 «Свебикс»"/>
         <meta name="author" content="Свебикс"/>
-        <? /* Component: Common ====================================================*/ ?>
-        <? /* Component: POW ====================================================*/ ?>
+        {{-- Component: Common ==================================================== --}}
+        {{-- Component: POW ==================================================== --}}
         {{--<link rel="manifest" href="/manifest.json">--}}
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
@@ -20,9 +20,9 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
         <meta name="msapplication-starturl" content="/">
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
-        <? /* Component: POW ====================================================*/ ?>
+        {{-- Component: POW ==================================================== --}}
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <? /* Component: Icon ====================================================*/ ?>
+        {{-- Component: Icon ==================================================== --}}
         <link rel="icon" type="image/png" href="/images/icon/favicon-16x16.png" sizes="16x16">
         <link rel="icon" type="image/png" href="/images/icon/favicon-32x32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="/images/icon/favicon-96x96.png" sizes="96x96">
@@ -43,16 +43,16 @@
         <meta name="msapplication-wide310x150logo" content="/images/icon/favicon-310x150.png">
         --}}
         <meta name="msapplication-square310x310logo" content="/images/icon/favicon-310x310.png">
-        <? /* Component: Icon ====================================================*/ ?>
-        <? /* Component: Preload ====================================================*/ ?>
+        {{-- Component: Icon ==================================================== --}}
+        {{-- Component: Preload ==================================================== --}}
         <link rel="preload" href="/fonts/Montserrat/Montserrat-Regular.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
         <link rel="preload" href="/fonts/Montserrat/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
         <link rel="preload" href="/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
-        <? /* Component: AddScript ====================================================*/ ?>
+        {{-- Component: AddScript ==================================================== --}}
         <link rel="preload" href="{{ mix('/js/js.min.js') }}" as="script" type="text/javascript"/>
-        <? /* Component: AddScript ====================================================*/ ?>
-        <? /* Component: Preload ====================================================*/ ?>
-        <? /* Component: Style ====================================================*/ ?>
+        {{-- Component: AddScript ==================================================== --}}
+        {{-- Component: Preload ==================================================== --}}
+        {{-- Component: Style ==================================================== --}}
         <style>
         body,
         html {
@@ -135,19 +135,19 @@
         }
         </style>
         @if(View::hasSection('style'))@yield('style')@endif
-        <? /* Component: Style ====================================================*/ ?>
+        {{-- Component: Style ==================================================== --}}
         @livewireStyles
-        <? /* Component: AddStyle ====================================================*/ ?>
+        {{-- Component: AddStyle ==================================================== --}}
         @mobile
-        <link rel="preload" href="{{ mix('/css/mobile.min.css') }}" as="style" type="text/css" onload="this.rel='stylesheet'"/>
+            <link rel="stylesheet" href="{{ mix('/css/mobile.min.css') }}" as="style" type="text/css"/>
         @elsemobile
-        <link rel="preload" href="{{ mix('/css/portable.min.css') }}" as="style" type="text/css" onload="this.rel='stylesheet'"/>
+            <link rel="stylesheet" href="{{ mix('/css/portable.min.css') }}" as="style" type="text/css"/>
         @endmobile
         @if(View::hasSection('stylesheet'))
             @yield('stylesheet')
         @endif
-        <? /* Component: AddStyle ====================================================*/ ?>
-        <? /* Component: Open Graph ====================================================*/ ?>
+        {{-- Component: AddStyle ==================================================== --}}
+        {{-- Component: Open Graph ==================================================== --}}
         @if(View::hasSection('ogmeta'))
             <meta property="og:type" content="website"/>
             <meta property="og:site_name" content="Einsteiners - Сервис организации мероприятий"/>
@@ -164,7 +164,7 @@
             <meta property="og:image:width" content="1200"/>
             <meta property="og:image:height" content="630"/>
         @endif
-        <? /* Component: Open Graph ====================================================*/ ?>
+        {{-- Component: Open Graph ==================================================== --}}
     </head>
     <body id="body" onload="load();">
         {{--
@@ -174,7 +174,7 @@
             </div>
         </div>
         --}}
-        <? /* Component: Modal ====================================================*/ ?>
+        {{-- Component: Modal ==================================================== --}}
         <div id="cookie" class="uk-modal-consent" data-uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical" data-uk-scrollspy="cls: uk-animation-shake">
                 <div class="uk-modal-padding">
@@ -218,8 +218,8 @@
                 </div>
             </div>
         </div>
-        <? /* Component: Modal ====================================================*/ ?>
-        <? /* Component: Offcanvas ====================================================*/ ?>
+        {{-- Component: Modal ==================================================== --}}
+        {{-- Component: Offcanvas ==================================================== --}}
         <div id="offcanvas" class="uk-offcanvas-large" data-uk-offcanvas="overlay: true; mode: none" style="display: none">
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" data-uk-close></button>
@@ -260,7 +260,7 @@
                 </div>
             </div>
         </div>
-        <? /* Component: Offcanvas ====================================================*/ ?>
+        {{-- Component: Offcanvas ==================================================== --}}
         @mobile
         <div class="uk-header-mobile">
             <div class="uk-grid uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
@@ -548,9 +548,9 @@
             </div>
         </div>
         @include('includes.cookie-message')
-        <? /* Component: AddScript ====================================================*/ ?>
+        {{-- Component: AddScript ==================================================== --}}
         <script src="{{ mix('/js/js.min.js') }}"></script>
-        <? /* Component: AddScript ====================================================*/ ?>
+        {{-- Component: AddScript ==================================================== --}}
         @if(View::hasSection('script'))
             @yield('script')
         @endif

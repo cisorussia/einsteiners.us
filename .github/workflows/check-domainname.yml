@@ -1,5 +1,5 @@
 ---
-name: Check domainname (PR_target)
+name: Check domainname
 on: [pull_request_target]
 jobs:
   build:

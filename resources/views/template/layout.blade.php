@@ -6,7 +6,7 @@
         <base href="/"/>
         <meta name="Robots" content="index, follow">
         <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-        <meta name="rights" content="© 2020 «Свебикс»"/>
+        <meta name="rights" content="Einsteiners"/>
         <meta name="author" content="Свебикс"/>
         {{-- Component: Common ==================================================== --}}
         {{-- Component: POW ==================================================== --}}

@@ -35,7 +35,8 @@ COPY . ${GIT_FOLDER}
 ##################
 # save commit id #
 ##################
-RUN echo ${BUILD_COMMIT_SHA} > ./public/git_commit_id
+RUN echo base commit#: ${BUILD_BASE_COMMIT_ID} > ./public/git_commit_id
+RUN echo PR head commit#: ${BUILD_PR_HEAD_COMMIT_ID} >> ./public/git_commit_id
 
 #########################
 # composer dependencies #

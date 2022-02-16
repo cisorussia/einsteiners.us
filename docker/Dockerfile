@@ -52,7 +52,6 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash - \
 # this will help to mount it from k8s     #
 ###########################################
 # RUN mkdir config_env && cp .env.example config_env/.env && ln -s config_env/.env
-RUN ln -s ../.env ./public/.env
 
 ########################
 # laravel dependencies #

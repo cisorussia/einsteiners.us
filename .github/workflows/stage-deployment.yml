@@ -26,7 +26,7 @@ on:
 jobs:
   build:
     # Name the Job
-    name: job 1
+    name: staging-deployment
     # Set the agent to run on
     runs-on: ubuntu-latest
     # Only run this on the main repo

@@ -24,39 +24,8 @@ URL::forceScheme('https');
 |
 */
 // Locale //
-    /*
-    Route::get('/lang/{locale}', function ($locale) {
-        if (! in_array($locale, ['en', 'ru'])) {
-            abort(400);
-        }
-        App::setLocale($locale);
-        return redirect()->route('home');
-    });
-    */
     use App\Http\Controllers\Service\LangController;
     Route::get('/lang/{locale}', [LangController::class, 'lang'])->name('lang');
-    /*
-    Route::get('/lang/{locale}', function ($locale) {
-        //if (! in_array($locale, ['en', 'ru'])) {
-        //    abort(400);
-        //}
-        //App::setLocale($locale);
-        //Cookie::queue('lang', $locale);
-        //return Cookie::get('lang');
-        //return redirect()->back();
-        //return redirect()->back()->withCookie(Cookie::make('lang', $locale, 100));
-        //return redirect('/')->withCookie(Cookie::make('lang', $locale, 100));
-    })->name('lang');
-    */
-    /*
-    Route::get('/lang/{locale}', function ($locale) {
-        if (! in_array($locale, ['en', 'ru'])) {
-            abort(400);
-        }
-        Session::put('locale', $locale);
-        return redirect()->back();
-    })->name('lang');
-    */
 // Locale //
 // Pages //
     //Route::middleware([App\Http\Middleware\HtmlMifier::class])->group(function () {
@@ -87,7 +56,6 @@ URL::forceScheme('https');
 // Search //
 // Search //
 // Cashe Clean //
-    //Route::resource('/clean', [Service\CasheController::class, 'index'])->name('clean');
     use App\Http\Controllers\Service\CasheController;
     Route::get('/clean', [CasheController::class, 'clean'])->name('clean');
     use App\Http\Controllers\Service\KeyController;
@@ -96,15 +64,17 @@ URL::forceScheme('https');
     Route::get('/link', [LinkController::class, 'link'])->name('link');
 // Cashe Clean //
 // Redirect Login //
-    /*
-    Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-    */
     Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
         return redirect('/events');
     })->name('dashboard');
 // Redirect Login //
+// SocialLogin //
+    use App\Http\Controllers\SocialController;
+    Route::get('/auth/facebook', [SocialController::class, 'facebookRedirect'])->name('auth.facebook');
+    Route::get('/auth/facebook/callback', [SocialController::class, 'loginWithFacebook']);
+    Route::get('/auth/google', [SocialController::class, 'googleRedirect'])->name('auth.google');
+    Route::get('/auth/google/callback', [SocialController::class, 'loginWithGoogle']);
+// SocialLogin //
 // VerificationLogin //
     Route::get('/email/verify', function () {
         return view('auth.verify-email');
@@ -167,6 +137,4 @@ use App\Http\Controllers\LoaderController;
 Route::post('/load', [LoaderController::class, 'ajax']);
 use App\Http\Controllers\CookieController;
 Route::post('/cookie', [CookieController::class, 'index']);
-//Route::post('/load', [App\Http\Controllers\LoaderController::class, 'ajax']);
-//Route::post('/cookie', [App\Http\Controllers\CookieController::class, 'index']);
 // System //

@@ -90,6 +90,23 @@
                     {{ __('LanPoli1') }} <a class="uk-consent" href="#consent" data-uk-toggle onClick="showContent.call(this);event.preventDefault();" data-link="con-consent" data-load="consentloading" data-position="consentBody">{{ __('LanPoli2') }}</a>.
                 </div>
             </form>
+
+            <div class="uk-sociallite uk-grid uk-grid-small uk-flex uk-flex-middle uk-flex-center uk-margin-top" data-uk-grid>
+                <div class="uk-width-auto@m">
+                    {{ __('LanLoginSocial') }}
+                </div>
+                <div class="uk-width-auto@xs">
+                    <a href="{{ route('auth.google') }}">
+                        <span data-uk-icon="icon: google"></span>
+                    </a>
+                </div>
+                <div class="uk-width-auto@xs">
+                    <a href="{{ route('auth.facebook') }}">
+                        <span data-uk-icon="icon: facebook"></span>
+                    </a>
+                </div>
+            </div>
+
         </div>
         {{--
         <form method="POST" action="{{ route('login') }}">

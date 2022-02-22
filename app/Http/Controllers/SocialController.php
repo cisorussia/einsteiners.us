@@ -18,7 +18,7 @@ class SocialController extends Controller
     }
 
     public function googleRedirect() {
-        return Socialite::driver('facebook')->redirect();
+        return Socialite::driver('google')->redirect();
     }
 
     public function LoginWithFacebook() {

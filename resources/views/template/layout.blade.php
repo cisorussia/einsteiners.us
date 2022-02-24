@@ -544,7 +544,14 @@
 
         <div class="uk-buttom">
             <div class="uk-container uk-container-center uk-text-center">
-                <a class="uk-consent" href="#consent" data-uk-toggle onClick="showContent.call(this);event.preventDefault();" data-link="con-consent" data-load="consentloading" data-position="consentBody">{{ __('LanPoli') }}</a>
+                <div class="uk-grid uk-grid-small uk-child-width-auto uk-flex uk-flex-center" data-uk-grid>
+                    <div>
+                        <a class="uk-consent" href="#consent" data-uk-toggle onClick="showContent.call(this);event.preventDefault();" data-link="con-consent" data-load="consentloading" data-position="consentBody">{{ __('LanPoli') }}</a>
+                    </div>
+                    <div>
+                        <a class="uk-consent" href="{{ route('conditions') }}">{{ __('lanConditionsLink') }}</a>
+                    </div>
+                </div>
             </div>
         </div>
         @include('includes.cookie-message')
@@ -560,5 +567,11 @@
         </script>
         --}}
         @livewireScripts
+        @if(request()->get('privacy') == 'view')
+            <script>
+                showContentLink();
+                UIkit.modal('#consent').show();
+            </script>
+        @endif
     </body>
 </html>

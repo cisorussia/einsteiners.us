@@ -11,7 +11,7 @@
     </ul>
     <br /><br />
 @else
-    <h2>CPrivacy policy</h2>
+    <h2>Privacy policy</h2>
     <p>You will be required to provide us with Personal Information if you choose to engage with certain functions on our Mobile Application or Website or with us in-store. This includes when you:</p>
     <ul>
         <li>Create an Einsteiners account. To create an Einsteiners account, you will provide us with personal identifiers, such as your name, date of birth, and email address. Once your account is created, we will maintain your Einsteiners username and password.</li>

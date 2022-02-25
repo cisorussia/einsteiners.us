@@ -44,6 +44,9 @@ URL::forceScheme('https');
         Route::get('/conditions', function () {
             return view('page/conditions');
         })->name('conditions');
+        Route::get('/privacy', function () {
+            return view('page/privacy');
+        })->name('privacy');
         Route::get('/calendar', function () {
             return view('calendar/calendar');
         })->name('calendar');

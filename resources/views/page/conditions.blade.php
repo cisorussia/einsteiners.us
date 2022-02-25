@@ -40,6 +40,8 @@
 <div class="uk-screen uk-screen-page uk-screen-create">
     <div class="uk-container uk-container-center">
         @if(App::isLocale('ru'))
+            <h1>Условия использования</h1>
+            <hr />
             <h3>1. Сфера применения</h3>
             <p>Настоящие правила и условия использования регулируют отношения использования между операторами einsteiners.us.de или einsteiners.us.net (далее именуемый как einsteiners.us ) и его пользователей (далее именуемый Пользователь). Предоставляемые услуги предназначены исключительно для частных лиц. einsteiners.us не может использоваться для рекламы или SEO-мер (т.е., например, для размещения ссылок на другой онлайн-контент для повышения рейтинга в поисковых системах). einsteiners.us оставляет за собой право изменять или удалять части предлагаемых услуг в любое время и без предварительного уведомления. Отклоняющиеся или дополнительные положения и условия использования или соглашения требуют явного и письменного согласия от einsteiners.us .</p>
             <h3>2. Объект использования</h3>
@@ -59,6 +61,8 @@
             <h3>9. Положение о разделяемости</h3>
             <p> Если части настоящих правил и условий использования являются недействительными или неэффективными, остальные части остаются неизменными.</p>
         @else
+            <h1>Terms of use</h1>
+            <hr />
             <h3>1. Scope of application</h3>
             <p>The present terms and conditions of use regulate the use relationship between the operators of einsteiners.us.de or einsteiners.us.net (hereinafter referred to as einsteiners.us) and its users (hereinafter referred to as User). The services provided are exclusively intended for private persons. einsteiners.us may not be used for advertising or SEO measures (i.e., for example for linking of other online contents to increase search engine rankings). einsteiners.us reserves the right to amend or to delete parts of the services on offer at any time and without prior notification. Deviating or supplementary terms and conditions of use or agreements shall require express and written consent from einsteiners.us.</p>
             <h3>2. Object of use</h3>

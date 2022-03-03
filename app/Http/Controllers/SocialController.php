@@ -34,6 +34,9 @@ class SocialController extends Controller
                     'email' => $user->email,
                     'email_verified_at' => Carbon::tomorrow(),
                     'facebook_id' => $user->id,
+                    'phone' =>  Hash::make($user->email),
+                    'gender_id' => '1',
+                    'role_id' => '2',
                     'password' => Hash::make('password'),
                 ]);
                 Auth::login($createUser);
@@ -57,6 +60,9 @@ class SocialController extends Controller
                     'email' => $user->email,
                     'email_verified_at' => Carbon::tomorrow(),
                     'google_id' => $user->id,
+                    'phone' =>  Hash::make($user->email),
+                    'gender_id' => '1',
+                    'role_id' => '2',
                     'password' => Hash::make('password'),
                 ]);
                 Auth::login($createUser);

@@ -2248,6 +2248,9 @@ Component: Social
 /* ========================================================================
 Component: Common
 ========================================================================== */
+.uk-sticky-placeholder {
+    display: none !important;
+}
 .uk-link, a {
     color: var(--base);
 }
@@ -2797,7 +2800,7 @@ Component: Animation
 }
 }
 @keyframes callback-mobile {
-    0, 100% {
+    100% {
         background: var(--blue);
     }
     33% {

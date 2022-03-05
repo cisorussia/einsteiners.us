@@ -283,6 +283,19 @@
         </div>
         @endmobile
         @desktop
+        <div class="uk-header-bar uk-visible@l" data-uk-sticky="top: 100vh; animation: uk-animation-slide-left; offset: 0px">
+            @if(App::isLocale('ru'))
+                <button class="uk-button uk-animation-toggle" data-uk-toggle="target: #offcanvas" type="button" data-uk-tooltip="title: Меню; pos: right; animation: uk-animation-slide-bottom">
+                    <span class="uk-animation-slide-bottom" data-uk-icon="icon: menu; ratio: 2"></span>
+                </button>
+            @else
+                <button class="uk-button uk-animation-toggle" data-uk-toggle="target: #offcanvas" type="button" data-uk-tooltip="title: Menu; pos: right; animation: uk-animation-slide-bottom">
+                    <span class="uk-animation-slide-bottom" data-uk-icon="icon: menu; ratio: 2"></span>
+                </button>
+            @endif
+        </div>
+        @enddesktop
+        @desktop
         <div class="uk-header uk-visible@m @if(View::hasSection('header-style'))@yield('header-style')@endif">
             <div class="uk-container uk-container-center">
                 <div class="uk-grid uk-grid-collapse" data-uk-grid>
@@ -523,19 +536,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        @enddesktop
-        @desktop
-        <div class="uk-header-bar uk-visible@l" data-uk-sticky="top: 120vh; animation: uk-animation-slide-left; offset: 0">
-            @if(App::isLocale('ru'))
-                <button class="uk-button uk-animation-toggle" data-uk-toggle="target: #offcanvas" type="button" data-uk-tooltip="title: Меню; pos: right; animation: uk-animation-slide-bottom">
-                    <span class="uk-animation-slide-bottom" data-uk-icon="icon: menu; ratio: 2"></span>
-                </button>
-            @else
-                <button class="uk-button uk-animation-toggle" data-uk-toggle="target: #offcanvas" type="button" data-uk-tooltip="title: Menu; pos: right; animation: uk-animation-slide-bottom">
-                    <span class="uk-animation-slide-bottom" data-uk-icon="icon: menu; ratio: 2"></span>
-                </button>
-            @endif
         </div>
         @enddesktop
 

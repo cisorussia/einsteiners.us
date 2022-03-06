@@ -18,13 +18,13 @@
 @endsection
 @section('header')
     @if(App::isLocale('ru'))
-        <title>День рождения</title>
+        <title>Закажите вечеринку</title>
         {{--
         <meta name="description" content="Описание"/>
         <meta name="keywords" content="Ключевые слова"/>
         --}}  
     @else
-        <title>Birtrhday</title>
+        <title>Book a Party</title>
         {{--
         <meta name="description" content="Описание"/>
         <meta name="keywords" content="Ключевые слова"/>

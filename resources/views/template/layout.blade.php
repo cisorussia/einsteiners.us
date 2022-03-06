@@ -224,7 +224,7 @@
             <div class="uk-offcanvas-bar">
                 <button class="uk-offcanvas-close" type="button" data-uk-close></button>
                 <div class="uk-panel uk-flex uk-flex-middle">
-                    <div class="uk-child-width-1-3@m" data-uk-grid>
+                    <div class="uk-child-width-1-1@m" data-uk-grid>
                         <div class="uk-no">
                             <div class="uk-scroll-overflow">
                                 <div>
@@ -233,27 +233,15 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="uk-flex uk-flex-middle uk-flex-center">
-                            {{--
-                            @include('includes.offcanvas-callback')
-                            --}}
-                        </div>
-                        <div class="uk-no">
-                            <div class="uk-min-1-3-large uk-jurnal-list uk-flex uk-flex-right">
-
-                            </div>
-                            <div class="uk-min-1-3-small uk-flex uk-flex-bottom uk-flex-right">
-                                <div>
-                                    <div class="uk-flex uk-flex-right@m uk-flex-left@xs uk-margin-bottom">
-                                        <div class="uk-social" data-src="/images/thame/l-3.png" data-uk-img>
-                                            @include('includes.social')
-                                        </div>
+                            <div>
+                                <div class="uk-flex uk-flex-left uk-margin-bottom uk-margin-top">
+                                    <div class="uk-social" data-src="/images/thame/l-3.png" data-uk-img>
+                                        @include('includes.social')
                                     </div>
-                                    <small>
-                                        @include('includes.copyright')
-                                    </small>
                                 </div>
+                                <small>
+                                    @include('includes.copyright')
+                                </small>
                             </div>
                         </div>
                     </div>

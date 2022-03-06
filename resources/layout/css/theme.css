@@ -459,7 +459,7 @@ Component: Offcanvas large
     background: var(--base);
 }
 .uk-offcanvas-large .uk-offcanvas-bar {
-    width: 100vw;
+    width: auto;
     z-index: 1;
 }
 .uk-offcanvas-large .uk-offcanvas-bar .uk-close {
@@ -509,6 +509,9 @@ Component: Offcanvas large
         */
         min-height: calc(100vh - 335px) !important;
     }
+}
+.uk-offcanvas-large .uk-offcanvas-bar .uk-panel .uk-scroll-overflow {
+    min-height: 60vh;
 }
 .uk-offcanvas-large .uk-offcanvas-bar .uk-panel .uk-scroll-overflow > *::-webkit-scrollbar {
     background: transparent;

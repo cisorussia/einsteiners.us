@@ -6,13 +6,10 @@ use App\Models\Payment;
 
 use Illuminate\Support\Facades\URL;
 
-/*
-if (env('APP_ENV') === 'production') {
-    URL::forceScheme('https');
+URL::forceScheme('https');
+if (env('APP_ENV') === 'dev') {
+    URL::forceScheme('http');
 }
-*/
-URL::forceScheme('http');
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes

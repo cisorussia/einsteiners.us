@@ -20,6 +20,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     {
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'birth' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'vaccine' => ['required', 'string', 'max:255'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
@@ -37,6 +39,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'name' => $input['name'],
                 'email' => $input['email'],
                 'vaccine' => $input['vaccine'],
+                'last_name' => $input['last_name'],
+                'birth' => $input['birth'],
             ])->save();
         }
     }
@@ -54,6 +58,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'name' => $input['name'],
             'email' => $input['email'],
             'vaccine' => $input['vaccine'],
+            'last_name' => $input['last_name'],
+            'birth' => $input['birth'],
             'email_verified_at' => null,
         ])->save();
 

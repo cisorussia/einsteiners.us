@@ -144,7 +144,7 @@
                     </div>
                 @else
                     <div class="uk-flex uk-flex-middle uk-flex-left" wire:click="add()">
-                        <button class="uk-button uk-button-add">Add data about the child</button>
+                        <button class="uk-button uk-button-add">Add children</button>
                     </div>
                 @endif
             </div>

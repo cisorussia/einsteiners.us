@@ -83,6 +83,18 @@
                     <span class="uk-border"></span>
                 </div>
                 <br />
+                <div class="uk-line uk-line-clean">
+                    <input id="last_name" class="uk-input" name="last_name" type="text" :value="old('last_name')" onkeydown="inputAction.call(this);inputLine.call(this);" required pattern="[А-Яа-яЁёA-z ]{2,}" />
+                    <label for="last_name"><span class="uk-icon" data-uk-icon="icon: user"></span> <i>*</i> {{ __('Last Name') }}</label>
+                    <span class="uk-border"></span>
+                </div>
+                <br />
+                <div class="uk-line uk-line-clean">
+                    <input id="birth" class="uk-input" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onFocus="maskPhone.call(this);" placeholder="__.__.____" required />
+                    <label for="birth"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('Date of birth') }}</label>
+                    <span class="uk-border"></span>
+                </div>
+                <br />
                 @if (App::isLocale('ru'))
                     <div class="uk-line uk-line-clean">
                         <input id="return-phone" name="phone" type="tel" class="uk-input uk-mask" onFocus="maskPhone.call(this);" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="inputAction.call(this);inputLine.call(this);" placeholder="+7 (9__) ___-__-__" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" required="required">
@@ -100,6 +112,12 @@
                 <div class="uk-line uk-line-clean">
                     <input id="email" class="uk-input" name="email" type="email" :value="old('email')" onkeydown="inputAction.call(this);inputLine.call(this);" pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})" required />
                     <label for="email"><span class="uk-icon" data-uk-icon="icon: mail"></span> <i>*</i> {{ __('Email') }}</label>
+                    <span class="uk-border"></span>
+                </div>
+                <br />
+                <div class="uk-line uk-line-clean">
+                    <input id="vaccine" class="uk-input" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onFocus="maskPhone.call(this);" placeholder="__.__.____" />
+                    <label for="vaccine"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('LangVaccine') }}</label>
                     <span class="uk-border"></span>
                 </div>
                 <br />

@@ -527,7 +527,6 @@
         </div>
         @enddesktop
 
-
         @yield('content')
 
         <div class="uk-buttom">

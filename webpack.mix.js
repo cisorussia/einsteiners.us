@@ -29,6 +29,7 @@ mix
             'resources/layout/js/uikit.min.js',
             'resources/layout/js/uikit-icons.min.js',
             'resources/layout/js/action.min.js',
+            'resources/layout/js/cssworld.ru-xcal.js',
         ],  
         'public/js/js.min.js'
     ).version()

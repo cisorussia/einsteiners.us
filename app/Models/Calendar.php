@@ -13,6 +13,7 @@ class Calendar extends Model
         'cover_path',
         'description',
         'date_event',
+        'date_time',
         'location',
     ];
 

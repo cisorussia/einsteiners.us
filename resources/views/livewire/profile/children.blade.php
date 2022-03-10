@@ -88,7 +88,7 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full" wire:model.defer="birthday" onFocus="maskPhone.call(this);" placeholder="__.__.____" type="text"/>
+                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
                                             </div>
                                         </div>
                                         <div>
@@ -127,7 +127,7 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full" wire:model.defer="birthday" onFocus="maskPhone.call(this);" placeholder="__.__.____" type="text"/>
+                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
                                             </div>
                                         </div>
                                         <div>

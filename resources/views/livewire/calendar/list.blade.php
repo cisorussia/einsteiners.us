@@ -123,7 +123,8 @@
                                     <h4 class="uk-text-center">{{ __('LanDateLocation') }}</h4>
                                 <hr />
                             </div>
-                                <div class="uk-grid-margin uk-first-column">
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                     <div class="uk-line-input">
                                         <label><i>*</i> {{ __('lanEventDate') }}</label>
                                         @error('date_event')
@@ -135,7 +136,20 @@
                                         @php
                                             $datelocal = new DateTime($date_event);
                                         @endphp
-                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="____-__-__ __:__:__" class="uk-input">
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                    </div>
+                                </div>
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
+                                    <div class="uk-line-input">
+                                        <label><i>*</i> {{ __('Time') }}</label>
+                                        @error('date_time')
+                                            <div class="uk-alert-danger" data-uk-alert>
+                                                <a class="uk-alert-close" data-uk-close></a>
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                        <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                     </div>
                                 </div>
                                 
@@ -258,7 +272,8 @@
                                     <h4 class="uk-text-center">{{ __('LanDateLocation') }}</h4>
                                 <hr />
                             </div>
-                                <div class="uk-grid-margin uk-first-column">
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                     <div class="uk-line-input">
                                         <label><i>*</i> {{ __('lanEventDate') }}</label>
                                         @error('date_event')
@@ -267,7 +282,20 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
-                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="____-__-__ __:__:__" class="uk-input">
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                    </div>
+                                </div>
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
+                                    <div class="uk-line-input">
+                                        <label><i>*</i> {{ __('Time') }}</label>
+                                        @error('date_time')
+                                            <div class="uk-alert-danger" data-uk-alert>
+                                                <a class="uk-alert-close" data-uk-close></a>
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                        <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                     </div>
                                 </div>
                         
@@ -551,7 +579,9 @@
                                         @php $time = '06:00 pm'; @endphp
                                     @elseif(date_format($date,"H:s") == '19:00')
                                         @php $time = '07:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '20:00')
+                                    @elseif(date_format($date,"H:s") == '20:00')s
+                                        @php $time = '08:00 pm'; @endphp
+                                    @else
                                         @php $time = '08:00 pm'; @endphp
                                     @endif
                                     @if(date_format(new DateTime($day),"Y-m-d") == date_format($date,"Y-m-d"))

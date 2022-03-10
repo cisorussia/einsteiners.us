@@ -70,7 +70,7 @@
         <!-- Birth -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="birth" value="{{ __('Date of birth') }}" />
-            <x-jet-input id="birth" type="text" class="mt-1 block w-full" wire:model.defer="state.birth" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
+            <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
             <x-jet-input-error for="birth" class="mt-2" />
         </div>
 
@@ -84,7 +84,7 @@
         <!-- Vaccine -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="vaccine" value="{{ __('LangVaccine') }}" />
-            <x-jet-input id="vaccine" type="text" class="mt-1 block w-full" wire:model.defer="state.vaccine" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
+            <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
             <x-jet-input-error for="vaccine" class="mt-2" />
         </div>
 

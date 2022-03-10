@@ -90,7 +90,7 @@
                 </div>
                 <br />
                 <div class="uk-line uk-line-clean">
-                    <input id="birth" class="uk-input" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onFocus="maskPhone.call(this);" placeholder="__.__.____" required />
+                    <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()" required />
                     <label for="birth"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('Date of birth') }}</label>
                     <span class="uk-border"></span>
                 </div>
@@ -116,7 +116,7 @@
                 </div>
                 <br />
                 <div class="uk-line uk-line-clean">
-                    <input id="vaccine" class="uk-input" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onFocus="maskPhone.call(this);" placeholder="__.__.____" />
+                    <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
                     <label for="vaccine"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('LangVaccine') }}</label>
                     <span class="uk-border"></span>
                 </div>

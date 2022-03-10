@@ -28,7 +28,7 @@ class CalendarlistComponent extends Component
     use WithPagination;
     use WithFileUploads;
 
-    public $childrenlist, $user, $select_calendars, $calendars, $name, $age, $date_event, $description, $location, $cover_path, $cover_add;
+    public $childrenlist, $user, $select_calendars, $calendars, $name, $age, $date_event, $date_time, $description, $location, $cover_path, $cover_add;
 
     public $personal, $phone, $date, $children, $liability, $screening, $waiver, $release;
 
@@ -89,6 +89,7 @@ class CalendarlistComponent extends Component
             'name' => $this->name,
             'cover_path' => $this->cover_add->store('upload/calendar', 'public'),
             'date_event' => $this->date_event,
+            'date_time' => $this->date_time,
             'age' => $this->age,
             'location' => $this->location,
             'description' => $this->description,
@@ -166,6 +167,7 @@ class CalendarlistComponent extends Component
                     'name' => $this->name,
                     'cover_path' => $this->cover_path->store('upload/event', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'age' => $this->age,
                     'location' => $this->location,
                     'description' => $this->description,
@@ -198,6 +200,7 @@ class CalendarlistComponent extends Component
                     'name' => $this->name,
                     //'cover_path' => $this->cover_path->store('upload', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'age' => $this->age,
                     'location' => $this->location,
                     'description' => $this->description,
@@ -242,6 +245,7 @@ class CalendarlistComponent extends Component
         $this->age = null;
         $this->location = null;
         $this->date_event = null;
+        $this->date_time = null;
         $this->description = null;
         $this->selected_id = null;
     }
@@ -265,6 +269,7 @@ class CalendarlistComponent extends Component
         $this->age = $calendars->age;
         $this->location = $calendars->location;
         $this->date_event = $calendars->date_event;
+        $this->date_time = $calendars->date_time;
         $this->description = $calendars->description;
         $this->resetValidation();
     }

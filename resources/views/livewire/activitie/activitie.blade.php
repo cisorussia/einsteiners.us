@@ -174,7 +174,7 @@
                                         {{--
                                         <input type="datetime-local" wire:model.defer="date_event" placeholder="@php echo date_format($datelocal,"d.m.Y H:i") @endphp" class="uk-input">
                                         --}}
-                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="__.__.__ __:__" class="uk-input">
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
                                     </div>
                                 </div>
                                 <div class="uk-grid-margin uk-first-column">
@@ -373,7 +373,7 @@
                                         {{--
                                         <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                         --}}
-                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="__.__.__ __:__" class="uk-input">
+                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
 
                                     </div>
                                 </div>

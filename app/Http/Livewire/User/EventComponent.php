@@ -19,7 +19,7 @@ class EventComponent extends Component
     
     use WithFileUploads;
     use WithPagination;
-    public /*$events,*/ $user, $users, $active, $link, $cover_path, $user_id, $name, $description, $date_event, $location, $tags, $reviewed;
+    public /*$events,*/ $user, $users, $active, $link, $cover_path, $user_id, $name, $description, $date_event, $date_time, $location, $tags, $reviewed;
     public $cover_add;
     public $selected_id = null;
     public $updateMode = false;
@@ -64,6 +64,7 @@ class EventComponent extends Component
         $this->cover_path = null;
         $this->location = null;
         $this->date_event = null;
+        $this->date_time = null;
         $this->description = null;
         $this->tags = null;
     }
@@ -84,6 +85,7 @@ class EventComponent extends Component
             'name' => $this->name,
             'cover_path' => $this->cover_add->store('upload/event', 'public'),
             'date_event' => $this->date_event,
+            'date_time' => $this->date_time,
             'location' => $this->location,
             'description' => $this->description,
             'link' => md5($user->id) . md5(date("d.m.Y")),
@@ -147,6 +149,7 @@ class EventComponent extends Component
                     'name' => $this->name,
                     'cover_path' => $this->cover_path->store('upload/event', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'location' => $this->location,
                     'description' => $this->description,
                     'tags' => $this->tags,
@@ -178,6 +181,7 @@ class EventComponent extends Component
                     'name' => $this->name,
                     //'cover_path' => $this->cover_path->store('upload', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'location' => $this->location,
                     'description' => $this->description,
                     'tags' => $this->tags,
@@ -206,6 +210,7 @@ class EventComponent extends Component
         $this->cover_path = $event->cover_path;
         $this->location = $event->location;
         $this->date_event = $event->date_event;
+        $this->date_time = $event->date_time;
         $this->description = $event->description;
         $this->tags = $event->tags; 
         $this->resetValidation();

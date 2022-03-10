@@ -115,7 +115,7 @@
                                 </div>
                             </div>
                             @enderror
-                            <div class="uk-grid-margin uk-first-column">
+                            <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                 <div class="uk-line-input">
                                     <label><i>*</i> {{ __('lanEventDate') }}</label>
                                     @error('date_event')
@@ -127,7 +127,22 @@
                                     {{--
                                     <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                     --}}
-                                    <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="__.__.__ __:__" class="uk-input">
+                                    <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                </div>
+                            </div>
+                            <div class="uk-grid-margin uk-first-column uk-width-1-2">
+                                <div class="uk-line-input">
+                                    <label><i>*</i> {{ __('Time') }}</label>
+                                    @error('date_time')
+                                        <div class="uk-alert-danger" data-uk-alert>
+                                            <a class="uk-alert-close" data-uk-close></a>
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    {{--
+                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
+                                    --}}
+                                    <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                 </div>
                             </div>
                             <div class="uk-grid-margin uk-first-column">
@@ -228,7 +243,8 @@
                                 </div>
                             </div>
                             @enderror
-                            <div class="uk-grid-margin uk-first-column">
+                            
+                            <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                 <div class="uk-line-input">
                                     <label><i>*</i> {{ __('lanEventDate') }}</label>
                                     @error('date_event')
@@ -240,7 +256,23 @@
                                     {{--
                                     <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                     --}}
-                                    <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" placeholder="__.__.__ __:__" class="uk-input">
+                                    <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                </div>
+                            </div>
+
+                            <div class="uk-grid-margin uk-first-column uk-width-1-2">
+                                <div class="uk-line-input">
+                                    <label><i>*</i> {{ __('Time') }}</label>
+                                    @error('date_time')
+                                        <div class="uk-alert-danger" data-uk-alert>
+                                            <a class="uk-alert-close" data-uk-close></a>
+                                            {{ $message }}
+                                        </div>
+                                    @enderror
+                                    {{--
+                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
+                                    --}}
+                                    <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                 </div>
                             </div>
 

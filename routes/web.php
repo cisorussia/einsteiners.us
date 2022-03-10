@@ -7,7 +7,7 @@ use App\Models\Payment;
 use Illuminate\Support\Facades\URL;
 
 URL::forceScheme('https');
-if (env('APP_ENV') === 'dev') {
+if (env('APP_DEV') == 'true') {
     URL::forceScheme('http');
 }
 /*

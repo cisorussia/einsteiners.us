@@ -127,7 +127,11 @@
                                     {{--
                                     <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                     --}}
-                                    <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                    @if(App::isLocale('ru'))
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                    @else
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                    @endif
                                 </div>
                             </div>
                             <div class="uk-grid-margin uk-first-column uk-width-1-2">
@@ -256,7 +260,11 @@
                                     {{--
                                     <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                     --}}
-                                    <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                    @if(App::isLocale('ru'))
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                    @else
+                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                    @endif
                                 </div>
                             </div>
 
@@ -463,9 +471,11 @@
                             </div>
                         </div>
                         <div class="uk-width-auto@m">
+
                             <div class="uk-date @if($event->date_event < date('Y-m-d H:i:s')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }}; pos: bottom">
                                 <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"j.m.Y"); @endphp</span>
                             </div>
+
                         </div>
                     </div>
                 </div>

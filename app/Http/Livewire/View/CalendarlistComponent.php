@@ -48,7 +48,7 @@ class CalendarlistComponent extends Component
     public function render()
     {
         $user = Auth::user();
-        $this->now = date_format(new DateTime('now'),"Y-m-d");
+        $this->now = date_format(new DateTime('now'),"d-m-Y");
         //dd($user);
 
         if (isset($user)) {
@@ -81,7 +81,7 @@ class CalendarlistComponent extends Component
             'cover_add' => 'required|image|max:1024',
             'age' => 'required|min:1',
             'location' => 'required|min:1',
-            'date_event' => 'required',
+            'date_event' => 'required|after:1945-01-01',
             'description' => 'required|min:1',
         ]);
 
@@ -157,7 +157,7 @@ class CalendarlistComponent extends Component
                 'cover_path' => 'required|image|max:1024',
                 'age' => 'required|min:1',
                 'location' => 'required|min:5',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:1',
             ]);
             if ($this->selected_id) {
@@ -190,7 +190,7 @@ class CalendarlistComponent extends Component
                 //'cover_path' => 'required|image|max:1024',
                 'age' => 'required|min:1',
                 'location' => 'required|min:5',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:1',
             ]);
             if ($this->selected_id) {

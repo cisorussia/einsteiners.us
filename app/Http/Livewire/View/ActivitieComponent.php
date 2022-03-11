@@ -9,7 +9,7 @@ use App\Models\Categorie;
 
 class ActivitieComponent extends Component
 {
-    public $activities, $active, $cover_path, $categorie_id, $countrie_id, $citie_id, $name, $description, $date_event, $paide_id, $price, $number_volume, $number_available, $location, $tags, $reviewed;
+    public $activities, $active, $cover_path, $categorie_id, $countrie_id, $citie_id, $name, $description, $date_event, $date_time, $paide_id, $price, $number_volume, $number_available, $location, $tags, $reviewed;
     public $selected_categorie;
     public $categories;
 

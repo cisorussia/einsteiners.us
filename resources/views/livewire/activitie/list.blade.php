@@ -56,7 +56,7 @@
                     @endif
                     <div class="uk-content">
                         <div class="uk-date">
-                            <span>{{ date_format($date,"d.m") }}</span> {{ date_format($date,"Y") }}, {{ date_format($date,"H:s") }}
+                            <span>{{ date_format($date,"d.m") }}</span> {{ date_format($date,"Y") }}, {{ $activitie->date_time }}
                         </div>
                         <h2>{{ $activitie->name }}</h2>
                         <ul class="uk-list" wire:ignore>

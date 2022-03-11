@@ -76,7 +76,7 @@ class EventComponent extends Component
             'name' => 'required|min:2',
             'cover_add' => 'required|image|max:1024',
             'location' => 'required|min:5',
-            'date_event' => 'required',
+            'date_event' => 'required|after:1945-01-01',
             'description' => 'required|min:5',
             'tags' => 'required|min:5',
         ]);
@@ -138,7 +138,7 @@ class EventComponent extends Component
                 'name' => 'required|min:2',
                 'cover_path' => 'required|image|max:1024',
                 'location' => 'required|min:5',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -170,7 +170,7 @@ class EventComponent extends Component
                 'name' => 'required|min:2',
                 //'cover_path' => 'required|image|max:1024',
                 'location' => 'required|min:5',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);

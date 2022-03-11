@@ -136,7 +136,11 @@
                                         @php
                                             $datelocal = new DateTime($date_event);
                                         @endphp
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                        @if(App::isLocale('ru'))
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @else
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @endif
                                     </div>
                                 </div>
 
@@ -282,10 +286,13 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                        @if(App::isLocale('ru'))
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @else
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @endif
                                     </div>
                                 </div>
-
                                 <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                     <div class="uk-line-input">
                                         <label><i>*</i> {{ __('Time') }}</label>
@@ -445,7 +452,7 @@
             
             @foreach ($calendars as $calendar)
                 @php
-                    $days[] = date_format(new DateTime($calendar->date_event),"Y-m-d");
+                    $days[] = date_format(new DateTime($calendar->date_event),"d-m-Y");
                 @endphp
             @endforeach
 
@@ -455,7 +462,7 @@
                     return strtotime($a) - strtotime($b);
                 }
                 usort($result_days, "date_sort");
-                $day_count = array_search(date_format(new DateTime('now'),"Y-m-d"), $result_days, $strict = false);
+                $day_count = array_search(date_format(new DateTime('now'),"d-m-Y"), $result_days, $strict = false);
             @endphp
 
             @if (App::isLocale('ru'))
@@ -546,45 +553,50 @@
                 @foreach ($result_days as $day)
                     <li>
                         @php
-                            $select_day = date_format(new DateTime($day),"Y-m-d");
+                            $select_day = date_format(new DateTime($day),"d-m-Y");
                             $string_calendars = json_encode($calendars);
                         @endphp
-                        @if(strpos($string_calendars, $select_day) !== false)
+
+                        @foreach ($calendars as $calendar)
+
+                        @endforeach
+
+                        @if(strpos($string_calendars, $select_day) == false)
                             <div class="uk-list-event uk-grid uk-child-width-1-3@m uk-grid-small" data-uk-grid data-uk-height-match="target: > div > .uk-card">
                                 @foreach ($calendars as $calendar)
                                     @php
                                         $date = new DateTime($calendar->date_event);
                                     @endphp
-                                    @if(date_format($date,"H:s") == '08:00')
-                                        @php $time = '08:00 am'; @endphp
-                                    @elseif(date_format($date,"H:s") == '09:00')
-                                        @php $time = '09:00 am'; @endphp
-                                    @elseif(date_format($date,"H:s") == '10:00')
-                                        @php $time = '10:00 am'; @endphp
-                                    @elseif(date_format($date,"H:s") == '11:00')
-                                        @php $time = '11:00 am'; @endphp
-                                    @elseif(date_format($date,"H:s") == '12:00')
-                                        @php $time = '12:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '13:00')
-                                        @php $time = '01:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '14:00')
-                                        @php $time = '02:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '15:00')
-                                        @php $time = '03:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '16:00')
-                                        @php $time = '04:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '17:00')
-                                        @php $time = '05:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '18:00')
-                                        @php $time = '06:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '19:00')
-                                        @php $time = '07:00 pm'; @endphp
-                                    @elseif(date_format($date,"H:s") == '20:00')s
-                                        @php $time = '08:00 pm'; @endphp
-                                    @else
-                                        @php $time = '08:00 pm'; @endphp
+
+                                    @if(str_contains($calendar->date_time, '08:'))
+                                        @php $time = $calendar->date_time . ' am'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '09:'))
+                                        @php $time = $calendar->date_time . ' am'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '10:'))
+                                        @php $time = $calendar->date_time . ' am'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '11:'))
+                                        @php $time = $calendar->date_time . ' am'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '12:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '13:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '14:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '15:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '16:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '17:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '18:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '19:'))
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @elseif(str_contains($calendar->date_time, '20:'))s
+                                        @php $time = $calendar->date_time . ' pm'; @endphp
                                     @endif
-                                    @if(date_format(new DateTime($day),"Y-m-d") == date_format($date,"Y-m-d"))
+
+                                    @if(date_format(new DateTime($day),"d-m-Y") == date_format($date,"d-m-Y"))
                                         <div>
                                             <div class="uk-card">
                                                 <div class="uk-image" data-src="{{ route('storage') }}/{{ $calendar->cover_path }}" data-uk-img wire:ignore>
@@ -592,9 +604,10 @@
                                                         <span>{{ $calendar->age }}</span>
                                                     @endif
                                                 </div>
-                                                @if($calendar->date_event > date('Y-m-d H:i:s'))
+                                                {{--
+                                                @if($calendar->date_event > date('d-m-Y H:i:s'))
                                                     <div class="uk-panel-time" wire:ignore>
-                                                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . date_format($date,"h:m:s") . "-11:00"; @endphp">
+                                                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"d-m-Y") . "T" . date_format($date,"h:m:s") . "-11:00"; @endphp">
                                                             <div>
                                                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -617,6 +630,7 @@
                                                         </div>
                                                     </div>
                                                 @endif
+                                                --}}
                                                 <div class="uk-content">
                                                     <div class="uk-date">
                                                         <span>{{ date_format($date,"d.m") }}</span> {{ date_format($date,"Y") }}, {{ $time }}
@@ -629,7 +643,7 @@
                                                     </ul>
                                                     <div class="uk-grid uk-margin-top uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
                                                         <div class="uk-width-1-2@xs">
-                                                            @if(date_format(new DateTime('now'),"Y-m-d") <= date_format($date,"Y-m-dY"))
+                                                            @if(date_format(new DateTime('now'),"d-m-Y") <= date_format($date,"d-m-Y"))
                                                                 <button class="uk-button uk-button-symbol" wire:click="callbackModal({{ $calendar->id }})">
                                                                     {{ __('LanSingup') }}
                                                                 </button>
@@ -658,7 +672,9 @@
                                     @endif
                                 @endforeach
                             </div>
+
                         @else
+
                             @if (App::isLocale('ru'))
                                 <div class="uk-clean-calendat">
                                     <h2>На эту дату пока нет занятий</h2>
@@ -668,7 +684,9 @@
                                     <h2>There are no classes for this date yet</h2>
                                 </div>
                             @endif
+
                         @endif
+                        
                     </li>
                 @endforeach
             </ul>

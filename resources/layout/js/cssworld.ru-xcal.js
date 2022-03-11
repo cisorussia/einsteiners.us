@@ -81,6 +81,8 @@ a.f = function() {
 	d += a.delim+m+a.delim+y;
 	if(a.dop!=="") d += " "+a.dop;
 	if(a.o) a.o.value = xCal.value = d;
+	//alert('edit');
+	a.o.dispatchEvent(new Event('input')); /* Обновление поля */
 	if(a.hide==1) Nod(a.id).style.display="none";
 	if(typeof a.fn==="function") a.fn(d, a);
 	else if(typeof a.fn==="string" && a.fn!=="") eval(a.fn+"('"+d+"');");

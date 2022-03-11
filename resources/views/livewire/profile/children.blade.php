@@ -89,6 +89,13 @@
                                                     </div>
                                                 @enderror
                                                 <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
+
+                                                @if(App::isLocale('ru'))
+                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()"/>
+                                                @else
+                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()"/>
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div>
@@ -127,7 +134,13 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
+
+                                                @if(App::isLocale('ru'))
+                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()"/>
+                                                @else
+                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()"/>
+                                                @endif
+
                                             </div>
                                         </div>
                                         <div>

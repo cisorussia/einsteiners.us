@@ -90,7 +90,11 @@
                 </div>
                 <br />
                 <div class="uk-line uk-line-clean">
-                    <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()" required />
+                    @if(App::isLocale('ru'))
+                        <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
+                    @else
+                        <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
+                    @endif
                     <label for="birth"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('Date of birth') }}</label>
                     <span class="uk-border"></span>
                 </div>
@@ -116,7 +120,13 @@
                 </div>
                 <br />
                 <div class="uk-line uk-line-clean">
-                    <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()"/>
+
+                    @if(App::isLocale('ru'))
+                        <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
+                    @else
+                        <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
+                    @endif
+
                     <label for="vaccine"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('LangVaccine') }}</label>
                     <span class="uk-border"></span>
                 </div>

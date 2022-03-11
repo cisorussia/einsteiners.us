@@ -20,7 +20,7 @@ class ActivitieComponent extends Component
 {
     use WithFileUploads;
     use WithPagination;
-    public /*$activities,*/ $user, $users, $categories, $age, $countries, $cities, $paides, $active, $link, $cover_path, $user_id, $categorie_id, $countrie_id, $citie_id, $name, $description, $date_event, $paide_id, $price, $number_volume, $number_available, $location, $tags, $reviewed;
+    public /*$activities,*/ $user, $users, $categories, $age, $countries, $cities, $paides, $active, $link, $cover_path, $user_id, $categorie_id, $countrie_id, $citie_id, $name, $description, $date_event, $date_time, $paide_id, $price, $number_volume, $number_available, $location, $tags, $reviewed;
     public $cover_add;
     public $selected_id = null;
     public $updateMode = false;
@@ -101,6 +101,7 @@ class ActivitieComponent extends Component
         $this->number_volume = null;
         $this->number_available = null;
         $this->date_event = null;
+        $this->date_time = null;
         $this->description = null;
         $this->tags = null;
     }
@@ -129,7 +130,7 @@ class ActivitieComponent extends Component
             'price' => 'required|min:1',
             'number_volume' => 'required|min:1',
             'number_available' => 'required|min:1',
-            'date_event' => 'required',
+            'date_event' => 'required|after:1945-01-01',
             'description' => 'required|min:5',
             'tags' => 'required|min:5',
         ]);
@@ -138,6 +139,7 @@ class ActivitieComponent extends Component
             'name' => $this->name,
             'cover_path' => $this->cover_add->store('upload/activitie', 'public'),
             'date_event' => $this->date_event,
+            'date_time' => $this->date_time,
             'categorie_id' => $this->categorie_id,
             'age' => $this->age,
             'countrie_id' => $this->countrie_id,
@@ -179,7 +181,7 @@ class ActivitieComponent extends Component
                 //'price' => 'required|min:1',
                 'number_volume' => 'required|min:1',
                 'number_available' => 'required|min:1',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -190,6 +192,7 @@ class ActivitieComponent extends Component
                     'name' => $this->name,
                     'cover_path' => $this->cover_path->store('upload/event', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'categorie_id' => $this->categorie_id,
                     'age' => $this->age,
                     'countrie_id' => $this->countrie_id,
@@ -226,7 +229,7 @@ class ActivitieComponent extends Component
                 //'price' => 'required|min:1',
                 'number_volume' => 'required|min:1',
                 'number_available' => 'required|min:1',
-                'date_event' => 'required', /*date_format:d.m.Y H:i 12.12.1212 12:00*/
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -237,6 +240,7 @@ class ActivitieComponent extends Component
                     'name' => $this->name,
                     //'cover_path' => $this->cover_path->store('upload', 'public'),
                     'date_event' => $this->date_event,
+                    'date_time' => $this->date_time,
                     'categorie_id' => $this->categorie_id,
                     'countrie_id' => $this->countrie_id,
                     'age' => $this->age,
@@ -282,6 +286,7 @@ class ActivitieComponent extends Component
         $this->number_volume = $activitie->number_volume;
         $this->number_available = $activitie->number_available;
         $this->date_event = $activitie->date_event;
+        $this->date_time = $activitie->date_time;
         $this->description = $activitie->description;
         $this->tags = $activitie->tags; 
         $this->resetValidation();

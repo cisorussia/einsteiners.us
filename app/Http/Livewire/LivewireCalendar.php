@@ -306,7 +306,7 @@ class LivewireCalendar extends Component
         $this->validate([
             'name' => 'required|min:5',
             'cover_add' => 'required|image|max:1024',
-            'date_event' => 'required|min:5',
+            'date_event' => 'required|after:1945-01-01',
             'location' => 'required|min:5',
             'description' => 'required|min:50',
         ]);
@@ -370,7 +370,7 @@ class LivewireCalendar extends Component
                 'selected_id' => 'required|numeric',
                 'name' => 'required|min:5',
                 'cover_path' => 'required|image|max:1024',
-                'date_event' => 'required|min:5',
+                'date_event' => 'required|after:1945-01-01',
                 'location' => 'required|min:5',
                 'description' => 'required|min:50',
             ]);
@@ -399,7 +399,7 @@ class LivewireCalendar extends Component
                 'selected_id' => 'required|numeric',
                 'name' => 'required|min:5',
                 'location' => 'required|min:5',
-                'date_event' => 'required|min:5',
+                'date_event' => 'required|after:1945-01-01',
                 'description' => 'required|min:50',
                 //'cover_path' => 'required|image|max:1024',
             ]);

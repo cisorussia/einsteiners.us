@@ -174,7 +174,11 @@
                                         {{--
                                         <input type="datetime-local" wire:model.defer="date_event" placeholder="@php echo date_format($datelocal,"d.m.Y H:i") @endphp" class="uk-input">
                                         --}}
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
+                                        @if(App::isLocale('ru'))
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @else
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="uk-grid-margin uk-first-column">
@@ -361,7 +365,8 @@
                                     <h4 class="uk-text-center">{{ __('LanDateLocation') }}</h4>
                                 <hr />
                             </div>
-                                <div class="uk-grid-margin uk-first-column">
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                     <div class="uk-line-input">
                                         <label><i>*</i> {{ __('lanEventDate') }}</label>
                                         @error('date_event')
@@ -373,10 +378,30 @@
                                         {{--
                                         <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
                                         --}}
-                                        <input type="text" wire:model.defer="date_event" onFocus="maskPhone.call(this);" class="uk-input datepicker-here" onClick="xCal(this,'-',1)" onKeyUp="xCal()" oninput="xCal()">
-
+                                        @if(App::isLocale('ru'))
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @else
+                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        @endif
                                     </div>
                                 </div>
+
+                                <div class="uk-grid-margin uk-first-column uk-width-1-2">
+                                    <div class="uk-line-input">
+                                        <label><i>*</i> {{ __('Time') }}</label>
+                                        @error('date_time')
+                                            <div class="uk-alert-danger" data-uk-alert>
+                                                <a class="uk-alert-close" data-uk-close></a>
+                                                {{ $message }}
+                                            </div>
+                                        @enderror
+                                        {{--
+                                        <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
+                                        --}}
+                                        <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
+                                    </div>
+                                </div>
+
                                 <div class="uk-grid-margin uk-first-column">
                                     <div class="uk-line-input">
                                         <label><i>*</i> {{ __('LanCountry') }}</label>

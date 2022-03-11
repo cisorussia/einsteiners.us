@@ -13,6 +13,7 @@ use App\Models\User;
 //use App\Models\Gift;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class EventComponent extends Component
 {
@@ -31,6 +32,7 @@ class EventComponent extends Component
     public $activeEvent = false;
     public $upgradeUpload = false;
     public $adminView = false;
+    public $date_select = null;
     
     public function paginationView()
     {
@@ -65,18 +67,30 @@ class EventComponent extends Component
         $this->location = null;
         $this->date_event = null;
         $this->date_time = null;
+        $this->date_select = null;
         $this->description = null;
         $this->tags = null;
     }
 
     public function store()
     {
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+        
+        if($this->date_select !== 'null' && !empty($this->date_select)) {
+            if(App::isLocale('ru')) {
+                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+            } else {
+                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+            };
+        }
+        
         $user = Auth::user();
         $this->validate([
             'name' => 'required|min:2',
             'cover_add' => 'required|image|max:1024',
             'location' => 'required|min:5',
-            'date_event' => 'required|after:1945-01-01',
+            'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
             'description' => 'required|min:5',
             'tags' => 'required|min:5',
         ]);
@@ -132,13 +146,22 @@ class EventComponent extends Component
 
     public function update()
     {    
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+
+        if(App::isLocale('ru')) {
+            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+        };
+
         if ($this->upgradeUpload) {
             $this->validate([
                 'selected_id' => 'required|numeric',
                 'name' => 'required|min:2',
                 'cover_path' => 'required|image|max:1024',
                 'location' => 'required|min:5',
-                'date_event' => 'required|after:1945-01-01',
+                'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -170,7 +193,7 @@ class EventComponent extends Component
                 'name' => 'required|min:2',
                 //'cover_path' => 'required|image|max:1024',
                 'location' => 'required|min:5',
-                'date_event' => 'required|after:1945-01-01',
+                'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -212,7 +235,12 @@ class EventComponent extends Component
         $this->date_event = $event->date_event;
         $this->date_time = $event->date_time;
         $this->description = $event->description;
-        $this->tags = $event->tags; 
+        $this->tags = $event->tags;
+        if(App::isLocale('ru')) {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
+        };
         $this->resetValidation();
     }
 

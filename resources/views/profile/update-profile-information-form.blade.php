@@ -67,14 +67,25 @@
             <x-jet-input-error for="last_name" class="mt-2" />
         </div>
 
+        <!-- Phone -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="phone" value="{{ __('Phone') }}" />
+            @if (App::isLocale('ru'))
+                <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" onFocus="maskPhone.call(this);" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="inputAction.call(this);inputLine.call(this);" placeholder="+7 (9__) ___-__-__" pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"/>
+            @else
+                <x-jet-input id="phone" type="text" class="mt-1 block w-full" wire:model.defer="state.phone" onFocus="maskPhone.call(this);" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="inputAction.call(this);inputLine.call(this);" placeholder="+1 (___) ___-__-__" pattern="\+1\s?[\(]{0,1}[0-9][0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}"/>
+            @endif
+            <x-jet-input-error for="phone" class="mt-2" />
+        </div>
+
         <!-- Birth -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="birth" value="{{ __('Date of birth') }}" />
 
             @if(App::isLocale('ru'))
-                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()"/>
+                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
             @else
-                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()"/>
+                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
             @endif
 
             <x-jet-input-error for="birth" class="mt-2" />
@@ -92,9 +103,9 @@
             <x-jet-label for="vaccine" value="{{ __('LangVaccine') }}" />
 
             @if(App::isLocale('ru'))
-                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()"/>
+                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
             @else
-                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()"/>
+                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
             @endif
 
             <x-jet-input-error for="vaccine" class="mt-2" />

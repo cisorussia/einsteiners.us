@@ -60,13 +60,19 @@
                             <strong>{{ $autor->name }}</strong>
                         </div>
                         <div class="uk-content-colum">
-                            <div class="uk-date @if($event->date_event < date('Y-m-d H:i:s')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: Дата мероприятия; pos: bottom">
-                                <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"j.m.Y"); @endphp</span>
-                            </div>
+                            @if(App::isLocale('ru'))
+                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Day-Month-Year; pos: bottom">
+                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"d-m-Y"); @endphp</span>
+                                </div>
+                            @else
+                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Month-Day-Year; pos: bottom">
+                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"m-d-Y"); @endphp</span>
+                                </div>
+                            @endif
                         </div>
-                        @if($event->date_event > date('Y-m-d H:i:s'))
+                        @if($event->date_event > date('Y-m-d'))
                             <div class="uk-panel-time">
-                                <div class="uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . date_format($date,"h:m:s"); @endphp">
+                                <div class="uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $event->date_time . ':00'; @endphp">
                                     <div>
                                         <div class="uk-countdown-number uk-countdown-days"></div>
                                         <div class="uk-countdown-label uk-margin-small uk-text-center">Дни</div>

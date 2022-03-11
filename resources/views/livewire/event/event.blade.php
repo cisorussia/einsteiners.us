@@ -124,13 +124,10 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    {{--
-                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
-                                    --}}
                                     @if(App::isLocale('ru'))
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}">
                                     @else
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}">
                                     @endif
                                 </div>
                             </div>
@@ -143,9 +140,6 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    {{--
-                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
-                                    --}}
                                     <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                 </div>
                             </div>
@@ -250,20 +244,24 @@
                             
                             <div class="uk-grid-margin uk-first-column uk-width-1-2">
                                 <div class="uk-line-input">
-                                    <label><i>*</i> {{ __('lanEventDate') }}</label>
+                                    <label>
+                                        <i>*</i> {{ __('lanEventDate') }}
+                                        @if(App::isLocale('ru'))
+                                            <small>(День-Месяц-Год)</small>
+                                        @else
+                                            <small>(Month-Day-Year)</small>
+                                        @endif
+                                    </label>
                                     @error('date_event')
                                         <div class="uk-alert-danger" data-uk-alert>
                                             <a class="uk-alert-close" data-uk-close></a>
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    {{--
-                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
-                                    --}}
                                     @if(App::isLocale('ru'))
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____">
                                     @else
-                                        <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____">
                                     @endif
                                 </div>
                             </div>
@@ -277,9 +275,6 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    {{--
-                                    <input type="datetime-local" wire:model.defer="date_event" class="uk-input">
-                                    --}}
                                     <input type="text" wire:model.defer="date_time" class="uk-input" onFocus="maskPhone.call(this);" placeholder="__:__">
                                 </div>
                             </div>
@@ -371,9 +366,9 @@
                         @endif
                     </div>
                 @endif
-                @if($event->date_event > date('Y-m-d H:i:s'))
+                @if($event->date_event > date('Y-m-d'))
                     <div class="uk-panel-time" wire:ignore>
-                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . date_format($date,"h:m:s"); @endphp">
+                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $event['date_time'] . ':00'; @endphp">
                             <div>
                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -471,11 +466,15 @@
                             </div>
                         </div>
                         <div class="uk-width-auto@m">
-
-                            <div class="uk-date @if($event->date_event < date('Y-m-d H:i:s')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }}; pos: bottom">
-                                <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"j.m.Y"); @endphp</span>
-                            </div>
-
+                            @if(App::isLocale('ru'))
+                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Day-Month-Year; pos: bottom">
+                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"d-m-Y"); @endphp</span>
+                                </div>
+                            @else
+                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Month-Day-Year; pos: bottom">
+                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"m-d-Y"); @endphp</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

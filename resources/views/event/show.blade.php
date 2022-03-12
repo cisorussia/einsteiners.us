@@ -75,9 +75,9 @@
                                 <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Month-Day-Year; pos: bottom">
                                     <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"m-d-Y"); @endphp</span>
                                 </div>
-                            @endif
+                            @endif 
                         </div>
-                        @if($event->date_event > date('Y-m-d H:i:s'))
+                        @if($event->date_event > date('Y-m-d'))
                             <div class="uk-panel-time">
                                 <div class="uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $event->date_time . ':00'; @endphp">
                                     <div>

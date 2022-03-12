@@ -605,7 +605,7 @@
                                                     @endif
                                                 </div>
                                                 {{--
-                                                @if($calendar->date_event > date('d-m-Y H:i:s'))
+                                                @if($calendar->date_event > date('d-m-Y'))
                                                     <div class="uk-panel-time" wire:ignore>
                                                         <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"d-m-Y") . "T" . date_format($date,"h:m:s") . "-11:00"; @endphp">
                                                             <div>

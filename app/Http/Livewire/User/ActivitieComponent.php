@@ -34,6 +34,7 @@ class ActivitieComponent extends Component
     public $selectedCountry = false;
     public $selectedPaid = false;
     public $adminView = false;
+    public $date_select = null;
 
     public function paginationView()
     {
@@ -101,6 +102,7 @@ class ActivitieComponent extends Component
         $this->number_volume = null;
         $this->number_available = null;
         $this->date_event = null;
+        $this->date_select = null;
         $this->date_time = null;
         $this->description = null;
         $this->tags = null;
@@ -116,6 +118,17 @@ class ActivitieComponent extends Component
 
     public function store()
     {
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+        
+        if($this->date_select !== 'null' && !empty($this->date_select)) {
+            if(App::isLocale('ru')) {
+                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+            } else {
+                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+            };
+        }
+
         $user = Auth::user();
         //dd($this->categorie_id);
         $this->validate([
@@ -130,7 +143,7 @@ class ActivitieComponent extends Component
             'price' => 'required|min:1',
             'number_volume' => 'required|min:1',
             'number_available' => 'required|min:1',
-            'date_event' => 'required|after:1945-01-01',
+            'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
             'description' => 'required|min:5',
             'tags' => 'required|min:5',
         ]);
@@ -167,6 +180,15 @@ class ActivitieComponent extends Component
 
     public function update()
     {    
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+
+        if(App::isLocale('ru')) {
+            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+        };
+        
         if ($this->upgradeUpload) {
             $this->validate([
                 'selected_id' => 'required|numeric',
@@ -181,7 +203,7 @@ class ActivitieComponent extends Component
                 //'price' => 'required|min:1',
                 'number_volume' => 'required|min:1',
                 'number_available' => 'required|min:1',
-                'date_event' => 'required|after:1945-01-01',
+                'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -229,7 +251,7 @@ class ActivitieComponent extends Component
                 //'price' => 'required|min:1',
                 'number_volume' => 'required|min:1',
                 'number_available' => 'required|min:1',
-                'date_event' => 'required|after:1945-01-01',
+                'date_event' => 'required|after:' . $date_after . '|before:' . $date_before,
                 'description' => 'required|min:5',
                 'tags' => 'required|min:5',
             ]);
@@ -288,7 +310,12 @@ class ActivitieComponent extends Component
         $this->date_event = $activitie->date_event;
         $this->date_time = $activitie->date_time;
         $this->description = $activitie->description;
-        $this->tags = $activitie->tags; 
+        $this->tags = $activitie->tags;
+        if(App::isLocale('ru')) {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
+        };
         $this->resetValidation();
     }
 

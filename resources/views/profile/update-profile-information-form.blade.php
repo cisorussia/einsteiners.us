@@ -83,6 +83,18 @@
             <x-jet-label for="birth" value="{{ __('Date of birth') }}" />
 
             @if(App::isLocale('ru'))
+                <small>(День-Месяц-Год)</small>
+            @else
+                <small>(Month-Day-Year)</small>
+            @endif
+
+            @if(App::isLocale('ru'))
+                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
+            @else
+                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
+            @endif
+
+            @if(App::isLocale('ru'))
                 <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
             @else
                 <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
@@ -101,6 +113,18 @@
         <!-- Vaccine -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="vaccine" value="{{ __('LangVaccine') }}" />
+
+            @if(App::isLocale('ru'))
+                <small>(День-Месяц-Год)</small>
+            @else
+                <small>(Month-Day-Year)</small>
+            @endif
+
+            @if(App::isLocale('ru'))
+                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
+            @else
+                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
+            @endif
 
             @if(App::isLocale('ru'))
                 <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>

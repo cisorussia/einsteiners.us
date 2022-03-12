@@ -18,13 +18,33 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @param  array  $input
      * @return void
      */
+
+    public $date_birth = null;
+    public $date_vaccine = null;
+
     public function update($user, array $input)
     {
+        if($input['birth'] !== 'null' && !empty($input['birth'])) {
+            if(App::isLocale('ru')) {
+                $input['birth'] = Carbon::createFromFormat('d-m-Y', $input['birth'])->format('Y-m-d'); // ДД.ММ.ГГГГ
+            } else {
+                $input['birth'] = Carbon::createFromFormat('m-d-Y', $input['birth'])->format('Y-m-d'); // ММ.ДД.ГГГГ
+            }
+        }
+
+        if($input['vaccine'] !== 'null' && !empty($input['vaccine'])) {
+            if(App::isLocale('ru')) {
+                $input['vaccine'] = Carbon::createFromFormat('d-m-Y', $input['vaccine'])->format('Y-m-d'); // ДД.ММ.ГГГГ
+            } else {
+                $input['vaccine'] = Carbon::createFromFormat('m-d-Y', $input['vaccine'])->format('Y-m-d'); // ММ.ДД.ГГГГ
+            }
+        }
+        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'birth' => ['required', 'after:1945-01-01'],
-            'phone' => ['required', 'string', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'vaccine' => ['required', 'after:2020-01-01'],
             'photo' => ['nullable', 'mimes:jpg,jpeg,png', 'max:1024'],
@@ -38,15 +58,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $user instanceof MustVerifyEmail) {
             $this->updateVerifiedUser($user, $input);
         } else {
-
-            if($input['vaccine'] !== 'null' && !empty($input['vaccine'])) {
-                if(App::isLocale('ru')) {
-                    $input['vaccine'] = Carbon::createFromFormat('d-m-Y', $input['vaccine'])->format('Y-m-d'); // ДД.ММ.ГГГГ
-                } else {
-                    $input['vaccine'] = Carbon::createFromFormat('m-d-Y', $input['vaccine'])->format('Y-m-d'); // ММ.ДД.ГГГГ
-                };
-            }
-
             $user->forceFill([
                 'name' => $input['name'],
                 'email' => $input['email'],

@@ -29,9 +29,9 @@
                             <span>{{ $activitie->age }}</span>
                         @endif
                     </div>
-                    @if($activitie->date_event > date('Y-m-d H:i:s'))
+                    @if($activitie->date_event > date('Y-m-d'))
                         <div class="uk-panel-time" wire:ignore>
-                            <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . date_format($date,"h:m:s"); @endphp">
+                            <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $activitie['date_time'] . ':00'; @endphp">
                                 <div>
                                     <div class="uk-countdown-number uk-countdown-days"></div>
                                     <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>

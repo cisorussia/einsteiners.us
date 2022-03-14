@@ -44,6 +44,7 @@ class CalendarlistComponent extends Component
     public $upgradeUpload = false;
     public $closeModal = false;
     public $callbackModal = false;
+    public $date_select = null;
 
     public function render()
     {
@@ -75,6 +76,17 @@ class CalendarlistComponent extends Component
 
     public function store()
     {
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+        
+        if($this->date_select !== 'null' && !empty($this->date_select)) {
+            if(App::isLocale('ru')) {
+                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+            } else {
+                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+            };
+        }
+        
         $user = Auth::user();
         $this->validate([
             'name' => 'required|min:1',
@@ -150,6 +162,15 @@ class CalendarlistComponent extends Component
 
     public function update()
     {    
+        $date_after = Carbon::today()->format('Y-m-d');
+        $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
+
+        if(App::isLocale('ru')) {
+            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
+        };
+        
         if ($this->upgradeUpload) {
             $this->validate([
                 'selected_id' => 'required|numeric',
@@ -246,6 +267,7 @@ class CalendarlistComponent extends Component
         $this->location = null;
         $this->date_event = null;
         $this->date_time = null;
+        $this->date_select = null;
         $this->description = null;
         $this->selected_id = null;
     }
@@ -271,6 +293,11 @@ class CalendarlistComponent extends Component
         $this->date_event = $calendars->date_event;
         $this->date_time = $calendars->date_time;
         $this->description = $calendars->description;
+        if(App::isLocale('ru')) {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
+        } else {
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
+        };
         $this->resetValidation();
     }
 

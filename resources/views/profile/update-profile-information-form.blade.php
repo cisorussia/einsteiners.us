@@ -89,9 +89,9 @@
             @endif
 
             @if(App::isLocale('ru'))
-                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
+                {{--@php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp--}}
             @else
-                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
+                {{--@php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp--}}
             @endif
 
             @if(App::isLocale('ru'))
@@ -121,9 +121,9 @@
             @endif
 
             @if(App::isLocale('ru'))
-                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
+                {{--@php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp--}}
             @else
-                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
+                {{--@php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp--}}
             @endif
 
             @if(App::isLocale('ru'))

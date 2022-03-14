@@ -594,6 +594,8 @@
                                         @php $time = $calendar->date_time . ' pm'; @endphp
                                     @elseif(str_contains($calendar->date_time, '20:'))s
                                         @php $time = $calendar->date_time . ' pm'; @endphp
+                                    @else
+                                        @php $time = $calendar->date_time; @endphp
                                     @endif
 
                                     @if(date_format(new DateTime($day),"d-m-Y") == date_format($date,"d-m-Y"))

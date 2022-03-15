@@ -133,9 +133,11 @@
                                                 {{ $message }}
                                             </div>
                                         @enderror
+                                        {{--
                                         @php
                                             $datelocal = new DateTime($date_event);
                                         @endphp
+                                        --}}
                                         @if(App::isLocale('ru'))
                                             <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
                                         @else
@@ -451,9 +453,11 @@
             @endphp
             
             @foreach ($calendars as $calendar)
-                @php
-                    $days[] = date_format(new DateTime($calendar->date_event),"d-m-Y");
-                @endphp
+                @if(App::isLocale('ru'))
+                    @php $days[] = date_format(new DateTime($calendar->date_event),"d-m-Y"); @endphp
+                @else
+                    @php $days[] = date_format(new DateTime($calendar->date_event),"m-d-Y"); @endphp
+                @endif
             @endforeach
 
             @php
@@ -564,9 +568,12 @@
                         @if(strpos($string_calendars, $select_day) == false)
                             <div class="uk-list-event uk-grid uk-child-width-1-3@m uk-grid-small" data-uk-grid data-uk-height-match="target: > div > .uk-card">
                                 @foreach ($calendars as $calendar)
-                                    @php
-                                        $date = new DateTime($calendar->date_event);
-                                    @endphp
+
+                                    @if(App::isLocale('ru'))
+                                        @php $date = new DateTime($calendar->date_event); @endphp
+                                    @else
+                                        @php $date = new DateTime($calendar->date_event); @endphp
+                                    @endif
 
                                     @if(str_contains($calendar->date_time, '08:'))
                                         @php $time = $calendar->date_time . ' am'; @endphp

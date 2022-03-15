@@ -294,9 +294,9 @@ class CalendarlistComponent extends Component
         $this->date_time = $calendars->date_time;
         $this->description = $calendars->description;
         if(App::isLocale('ru')) {
-            //$this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
         } else {
-            //$this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
+            $this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
         };
         $this->resetValidation();
     }

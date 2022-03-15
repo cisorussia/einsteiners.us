@@ -137,9 +137,9 @@
                                             $datelocal = new DateTime($date_event);
                                         @endphp
                                         @if(App::isLocale('ru'))
-                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                            <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
                                         @else
-                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                            <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
                                         @endif
                                     </div>
                                 </div>
@@ -287,9 +287,9 @@
                                             </div>
                                         @enderror
                                         @if(App::isLocale('ru'))
-                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                            <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
                                         @else
-                                            <input type="text" wire:model.defer="date_event" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
+                                            <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'.',2)" onKeyUp="xCal()" oninput="xCal()" placeholder="__.__.____" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}">
                                         @endif
                                     </div>
                                 </div>

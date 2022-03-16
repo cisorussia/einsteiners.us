@@ -638,7 +638,7 @@
                                                 </div>
 
                                                 
-                                                @if(\Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format($this->format) > date($this->format))
+                                                @if(\Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('Y-m-d H:m:s') >= new \Carbon\Carbon())
                                                     <div class="uk-panel-time" wire:ignore>
                                                         <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('Y-m-d') . "T" . $calendar['date_time']; @endphp">
                                                             <div>

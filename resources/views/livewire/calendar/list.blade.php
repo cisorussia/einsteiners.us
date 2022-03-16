@@ -484,14 +484,7 @@
             @endphp
             
             @foreach ($calendars as $calendar)
-                {{--
-                @if(App::isLocale('ru'))
-                    @php $days[] = date_format(new DateTime($calendar->date_event),"d-m-Y"); @endphp
-                @else
-                    @php $days[] = date_format(new DateTime($calendar->date_event),"m-d-Y"); @endphp
-                @endif
-                --}}
-                @php $days[] = date_format(new DateTime($calendar->date_event), $this->format); @endphp
+                @php $days[] = date_format(new DateTime($calendar->date_event), 'd-m-Y'); @endphp
             @endforeach
 
             @php
@@ -500,8 +493,7 @@
                     return strtotime($a) - strtotime($b);
                 }
                 usort($result_days, "date_sort");
-                //$day_count = array_search(date_format(new DateTime('now'),"d-m-Y"), $result_days, $strict = false);
-                $day_count = array_search(date_format(new DateTime('now'), $this->format), $result_days, $strict = false);
+                $day_count = array_search(date_format(new DateTime('now'), 'd-m-Y'), $result_days, $strict = false);
             @endphp
 
             @if (App::isLocale('ru'))
@@ -592,7 +584,7 @@
                 @foreach ($result_days as $day)
                     <li>
                         @php
-                            $select_day = date_format(new DateTime($day),"d-m-Y");
+                            $select_day = date_format(new DateTime($day),"Y-m-d");
                             $string_calendars = json_encode($calendars);
                         @endphp
 
@@ -600,16 +592,12 @@
 
                         @endforeach
 
-                        @if(strpos($string_calendars, $select_day) == false)
+                        @if(strpos($string_calendars, $select_day) != false)
                             <div class="uk-list-event uk-grid uk-child-width-1-3@m uk-grid-small" data-uk-grid data-uk-height-match="target: > div > .uk-card">
                                 @foreach ($calendars as $calendar)
 
-                                    @if(App::isLocale('ru'))
-                                        @php $date = new DateTime($calendar->date_event); @endphp
-                                    @else
-                                        @php $date = new DateTime($calendar->date_event); @endphp
-                                    @endif
-
+                                    @php $date = \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('d-m-Y'); @endphp
+                                    
                                     @if(str_contains($calendar->date_time, '08:'))
                                         @php $time = $calendar->date_time . ' am'; @endphp
                                     @elseif(str_contains($calendar->date_time, '09:'))
@@ -640,7 +628,7 @@
                                         @php $time = $calendar->date_time; @endphp
                                     @endif
 
-                                    @if(date_format(new DateTime($day),"d-m-Y") == date_format($date,"d-m-Y"))
+                                    @if(date_format(new DateTime($day),"d-m-Y") == \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('d-m-Y'))
                                         <div>
                                             <div class="uk-card">
                                                 <div class="uk-image" data-src="{{ route('storage') }}/{{ $calendar->cover_path }}" data-uk-img wire:ignore>
@@ -648,10 +636,11 @@
                                                         <span>{{ $calendar->age }}</span>
                                                     @endif
                                                 </div>
-                                                {{--
-                                                @if($calendar->date_event > date('d-m-Y'))
+
+                                                
+                                                @if(\Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format($this->format) > date($this->format))
                                                     <div class="uk-panel-time" wire:ignore>
-                                                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"d-m-Y") . "T" . date_format($date,"h:m:s") . "-11:00"; @endphp">
+                                                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('Y-m-d') . "T" . $calendar['date_time']; @endphp">
                                                             <div>
                                                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -674,10 +663,10 @@
                                                         </div>
                                                     </div>
                                                 @endif
-                                                --}}
+
                                                 <div class="uk-content">
                                                     <div class="uk-date">
-                                                        <span>{{ date_format($date,"d.m") }}</span> {{ date_format($date,"Y") }}, {{ $time }}
+                                                        <span>{{ \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('d.m') }}</span> {{ \Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('Y') }}, {{ $time }}
                                                     </div>
                                                     <h2>{{ $calendar->name }}</h2>
                                                     <ul class="uk-list" wire:ignore>
@@ -687,7 +676,7 @@
                                                     </ul>
                                                     <div class="uk-grid uk-margin-top uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
                                                         <div class="uk-width-1-2@xs">
-                                                            @if(date_format(new DateTime('now'),"d-m-Y") <= date_format($date,"d-m-Y"))
+                                                            @if(\Carbon\Carbon::createFromFormat(date_extract_format($calendar->date_event), $calendar->date_event)->format('Y-m-d H:m:s') >= new \Carbon\Carbon())
                                                                 <button class="uk-button uk-button-symbol" wire:click="callbackModal({{ $calendar->id }})">
                                                                     {{ __('LanSingup') }}
                                                                 </button>
@@ -696,6 +685,7 @@
                                                                     {{ __('LanNoSingup') }}
                                                                 </button>
                                                             @endif
+
                                                         </div>
                                                         @if ($adminView)
                                                             <div class="uk-width-1-4@xs">

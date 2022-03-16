@@ -312,9 +312,6 @@
                 </form>
             </div>
         </div>
-        {{--
-        @include('livewire.event.edit')
-        --}}
     @else
         @if ($createMode)
         <div id="crevent" class="uk-modal uk-modal-event uk-flex-top uk-open" style="display: flex" data-uk-modal>

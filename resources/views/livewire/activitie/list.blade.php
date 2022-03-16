@@ -74,8 +74,5 @@
             </div>
             @endforeach
         </div>
-        {{--
-        {{ $activities->links() }}
-        --}}
     </div>
 </div>

@@ -44,13 +44,14 @@ class CalendarlistComponent extends Component
     public $upgradeUpload = false;
     public $closeModal = false;
     public $callbackModal = false;
-    public $date_select = null;
+
+    public $format = 'd.m.Y';
+    public $format_calendar = '0';
 
     public function render()
     {
         $user = Auth::user();
         $this->now = date_format(new DateTime('now'),"d-m-Y");
-        //dd($user);
 
         if (isset($user)) {
             if($user['role_id'] == '3') {
@@ -67,10 +68,7 @@ class CalendarlistComponent extends Component
             $this->childrenlist = Children::where('user_id', $user->id)->get();
         }
 
-        //$this->calendars = Calendar::all();
-        $this->calendars = Calendar::all()->sortBy('date_event'); //sortByDesc
-        //$this->calendars = Calendar::where('active', '1')->get()->take(20);
-        //$this->calendars = Calendar::where('active', '1')->get();
+        $this->calendars = Calendar::all()->sortBy('date_event');
         return view('livewire.calendar.list');
     }
 
@@ -79,13 +77,7 @@ class CalendarlistComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
         
-        if($this->date_select !== 'null' && !empty($this->date_select)) {
-            if(App::isLocale('ru')) {
-                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-            } else {
-                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-            };
-        }
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
         
         $user = Auth::user();
         $this->validate([
@@ -165,11 +157,7 @@ class CalendarlistComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
 
-        if(App::isLocale('ru')) {
-            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-        };
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
         
         if ($this->upgradeUpload) {
             $this->validate([
@@ -219,7 +207,6 @@ class CalendarlistComponent extends Component
                 $calendars->update([
                     'id' => $this->selected_id,
                     'name' => $this->name,
-                    //'cover_path' => $this->cover_path->store('upload', 'public'),
                     'date_event' => $this->date_event,
                     'date_time' => $this->date_time,
                     'age' => $this->age,
@@ -248,7 +235,6 @@ class CalendarlistComponent extends Component
             $image = DB::table('calendars')->where('id', $id)->first();
             $this->confirmEvent = false;
             sleep(1);
-            //Storage::disk('public')->delete($image->cover_path);
             $calendars->delete();
         }
 
@@ -267,9 +253,9 @@ class CalendarlistComponent extends Component
         $this->location = null;
         $this->date_event = null;
         $this->date_time = null;
-        $this->date_select = null;
         $this->description = null;
         $this->selected_id = null;
+        $this->format = 'd.m.Y';
     }
 
     public function create()
@@ -293,11 +279,6 @@ class CalendarlistComponent extends Component
         $this->date_event = $calendars->date_event;
         $this->date_time = $calendars->date_time;
         $this->description = $calendars->description;
-        if(App::isLocale('ru')) {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $calendars->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
-        };
         $this->resetValidation();
     }
 

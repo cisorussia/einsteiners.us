@@ -165,11 +165,6 @@
                                         <div>
                                             <div class="uk-line-input">
                                                 <label class="block font-medium text-sm text-gray-700"><i>*</i> Birthday</label>
-                                                @if(App::isLocale('ru'))
-                                                    <small>(День-Месяц-Год)</small>
-                                                @else
-                                                    <small>(Month-Day-Year)</small>
-                                                @endif
                                                 @error('birthday')
                                                     <div class="uk-alert-danger" data-uk-alert>
                                                         <a class="uk-alert-close" data-uk-close></a>

@@ -1,4 +1,44 @@
 <div id="component">
+    @php
+        function date_extract_format( $d, $null = '' ) {
+            // check Day -> (0[1-9]|[1-2][0-9]|3[0-1])
+            // check Month -> (0[1-9]|1[0-2])
+            // check Year -> [0-9]{4} or \d{4}
+            $patterns = array(
+                '/\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,8}Z\b/' => 'Y-m-d\TH:i:s.u\Z', // format DATE ISO 8601
+                '/\b\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y-m-d',
+                '/\b\d{4}-(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])\b/' => 'Y-d-m',
+                '/\b(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-\d{4}\b/' => 'd-m-Y',
+                '/\b(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{4}\b/' => 'm-d-Y',
+
+                '/\b\d{4}\/(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\b/' => 'Y/d/m',
+                '/\b\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y/m/d',
+                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}\b/' => 'd/m/Y',
+                '/\b(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/\d{4}\b/' => 'm/d/Y',
+
+                '/\b\d{4}\.(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y.m.d',
+                '/\b\d{4}\.(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\b/' => 'Y.d.m',
+                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.\d{4}\b/' => 'd.m.Y',
+                '/\b(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\.\d{4}\b/' => 'm.d.Y',
+
+                // for 24-hour | hours seconds
+                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'H:i:s.u',
+                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'H:i:s',
+                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9]\b/' => 'H:i',
+
+                // for 12-hour | hours seconds
+                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'h:i:s.u',
+                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'h:i:s',
+                '/\b(?:1[012]|0[0-9]):[0-5][0-9]\b/' => 'h:i',
+
+                '/\.\d{3}\b/' => '.v'
+            );
+            //$d = preg_replace('/\b\d{2}:\d{2}\b/', 'H:i',$d);
+            $d = preg_replace( array_keys( $patterns ), array_values( $patterns ), $d );
+
+            return preg_match( '/\d/', $d ) ? $null : $d;
+        }
+    @endphp
     @if (session()->has('message'))
         <div class="uk-alert-success" data-uk-alert>
             <a class="uk-alert-close" data-uk-close></a>
@@ -124,11 +164,11 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    @if(App::isLocale('ru'))
-                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}">
-                                    @else
-                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}">
-                                    @endif
+
+                                    @php $this->date_event = \Carbon\Carbon::createFromFormat(date_extract_format($this->date_event), $this->date_event)->format($this->format); @endphp
+
+                                    <input class="uk-input datepicker-here" wire:model.defer="date_event" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
+
                                 </div>
                             </div>
                             <div class="uk-grid-margin uk-first-column uk-width-1-2">
@@ -189,9 +229,6 @@
                 </form>
             </div>
         </div>
-        {{--
-        @include('livewire.event.edit')
-        --}}
     @else
         @if ($createMode)
         <div id="crevent" class="uk-modal uk-modal-event uk-flex-top uk-open" style="display: flex" data-uk-modal>
@@ -246,11 +283,6 @@
                                 <div class="uk-line-input">
                                     <label>
                                         <i>*</i> {{ __('lanEventDate') }}
-                                        @if(App::isLocale('ru'))
-                                            <small>(День-Месяц-Год)</small>
-                                        @else
-                                            <small>(Month-Day-Year)</small>
-                                        @endif
                                     </label>
                                     @error('date_event')
                                         <div class="uk-alert-danger" data-uk-alert>
@@ -258,11 +290,8 @@
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                    @if(App::isLocale('ru'))
-                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____">
-                                    @else
-                                        <input type="text" wire:model.defer="date_select" class="uk-input datepicker-here" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____">
-                                    @endif
+
+                                    <input class="uk-input datepicker-here" wire:model.defer="date_event" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
                                 </div>
                             </div>
 
@@ -326,9 +355,6 @@
             </div>
         </div>
         @endif
-        {{--
-        @include('livewire.event.create')
-        --}}
     @endif
 
     @if(count($events) == 0)
@@ -342,7 +368,6 @@
                 <div class="uk-button-card uk-button">
                     <a href="{{ route('personal-events') }}?create=1">{{ __('LanCreateEvent') }}</a>
                 </div>
-
             </div>
         </div>
     @endif
@@ -466,15 +491,9 @@
                             </div>
                         </div>
                         <div class="uk-width-auto@m">
-                            @if(App::isLocale('ru'))
-                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Day-Month-Year; pos: bottom">
-                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"d-m-Y"); @endphp</span>
-                                </div>
-                            @else
-                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Month-Day-Year; pos: bottom">
-                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"m-d-Y"); @endphp</span>
-                                </div>
-                            @endif
+                            <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} {{ $this->format }}; pos: bottom">
+                                <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date, $this->format); @endphp</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -496,6 +515,17 @@
             </div>
         </div>
         @endforeach
+
+        <script>
+            document.addEventListener('livewire:load', function () {
+                @this.format = LocaleFormat();
+                if(LocaleFormat() == 'm.d.Y') {
+                    @this.format_calendar = 2;
+                } else {
+                    @this.format_calendar = 0;
+                }
+            });
+        </script>
 
         {{ $events->links() }}
     </div>

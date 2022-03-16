@@ -32,7 +32,9 @@ class EventComponent extends Component
     public $activeEvent = false;
     public $upgradeUpload = false;
     public $adminView = false;
-    public $date_select = null;
+
+    public $format = 'd.m.Y';
+    public $format_calendar = '0';
     
     public function paginationView()
     {
@@ -54,10 +56,7 @@ class EventComponent extends Component
             return view('livewire.event.event', [
                 'events' => Event::where('user_id', $user->id)->orderBy('id', 'desc')->paginate(10),
             ]);
-            //$this->events = Event::where('user_id', $user->id)->orderBy('id', 'desc')->get();
         }
-        //$this->events = Event::orderBy('id', 'desc')->get()->paginate(1);
-        //return view('livewire.event.event');
     }
 
     private function resetInput()
@@ -67,9 +66,9 @@ class EventComponent extends Component
         $this->location = null;
         $this->date_event = null;
         $this->date_time = null;
-        $this->date_select = null;
         $this->description = null;
         $this->tags = null;
+        $this->format = 'd.m.Y';
     }
 
     public function store()
@@ -77,13 +76,7 @@ class EventComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
         
-        if($this->date_select !== 'null' && !empty($this->date_select)) {
-            if(App::isLocale('ru')) {
-                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-            } else {
-                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-            };
-        }
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
         
         $user = Auth::user();
         $this->validate([
@@ -149,11 +142,7 @@ class EventComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
 
-        if(App::isLocale('ru')) {
-            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-        };
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
 
         if ($this->upgradeUpload) {
             $this->validate([
@@ -236,11 +225,7 @@ class EventComponent extends Component
         $this->date_time = $event->date_time;
         $this->description = $event->description;
         $this->tags = $event->tags;
-        if(App::isLocale('ru')) {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
-        };
+
         $this->resetValidation();
     }
 
@@ -311,7 +296,6 @@ class EventComponent extends Component
             $gifts = DB::table('gifts')->where('event_id', $id);
             $this->confirmEvent = false;
             sleep(1);
-            //Storage::disk('public')->delete($image->cover_path);
             $guests->delete();
             $gifts->delete();
             $event->delete();

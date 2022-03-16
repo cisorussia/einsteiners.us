@@ -15,6 +15,7 @@ use App\Models\Citie;
 use App\Models\Paide;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ActivitieComponent extends Component
 {
@@ -34,7 +35,9 @@ class ActivitieComponent extends Component
     public $selectedCountry = false;
     public $selectedPaid = false;
     public $adminView = false;
-    public $date_select = null;
+    
+    public $format = 'd.m.Y';
+    public $format_calendar = '0';
 
     public function paginationView()
     {
@@ -47,19 +50,7 @@ class ActivitieComponent extends Component
         $this->paides = Paide::all();
         $this->categories = Categorie::all();
         $this->countries = Countrie::all();
-        //$this->cities = Citie::all();
         $this->user = $user->id;
-        /*
-        if ($user->role_id == '3') {
-            $this->adminView = true;
-            $this->users = User::all();
-            $this->events = Activitie::all();
-        } else {
-            $this->activities = Activitie::where('user_id', $user->id)->get();
-        }
-        $this->activities = Activitie::orderBy('id', 'desc')->get();
-        return view('livewire.activitie.activitie');
-        */
         if ($user->role_id == '3') {
             $this->adminView = true;
             $this->users = User::all();
@@ -102,10 +93,10 @@ class ActivitieComponent extends Component
         $this->number_volume = null;
         $this->number_available = null;
         $this->date_event = null;
-        $this->date_select = null;
         $this->date_time = null;
         $this->description = null;
         $this->tags = null;
+        $this->format = 'd.m.Y';
     }
 
     public function create()
@@ -121,13 +112,7 @@ class ActivitieComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
         
-        if($this->date_select !== 'null' && !empty($this->date_select)) {
-            if(App::isLocale('ru')) {
-                $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-            } else {
-                $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-            };
-        }
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
 
         $user = Auth::user();
         //dd($this->categorie_id);
@@ -183,11 +168,7 @@ class ActivitieComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
 
-        if(App::isLocale('ru')) {
-            $this->date_event = Carbon::createFromFormat('d-m-Y', $this->date_select)->format('Y-m-d'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_event = Carbon::createFromFormat('m-d-Y', $this->date_select)->format('Y-m-d'); // ММ.ДД.ГГГГ
-        };
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
         
         if ($this->upgradeUpload) {
             $this->validate([
@@ -311,11 +292,6 @@ class ActivitieComponent extends Component
         $this->date_time = $activitie->date_time;
         $this->description = $activitie->description;
         $this->tags = $activitie->tags;
-        if(App::isLocale('ru')) {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('d-m-Y'); // ДД.ММ.ГГГГ
-        } else {
-            $this->date_select = Carbon::createFromFormat('Y-m-d', $event->date_event)->format('m-d-Y'); // ММ.ДД.ГГГГ
-        };
         $this->resetValidation();
     }
 
@@ -402,7 +378,6 @@ class ActivitieComponent extends Component
             $image = DB::table('activities')->where('id', $id)->first();
             $this->confirmEvent = false;
             sleep(1);
-            //Storage::disk('public')->delete($image->cover_path);
             $activitie->delete();
         }
 

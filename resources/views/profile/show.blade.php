@@ -26,7 +26,8 @@
 <div class="uk-container uk-container-center">
     <br /><br /><br />
     @if (Laravel\Fortify\Features::canUpdateProfileInformation())
-        @livewire('profile.update-profile-information-form')
+        {{--@livewire('profile.update-profile-information-form')--}}
+            @livewire('update-profile-information-form')
         <x-jet-section-border />
     @endif
 

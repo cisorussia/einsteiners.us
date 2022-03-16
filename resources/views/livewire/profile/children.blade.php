@@ -37,6 +37,17 @@
                                 </div>
                                 <div class="uk-grid uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
                                     <div class="uk-width-expand">
+
+                                        @if(stripos($guest->birthday, ':') && stripos($guest->birthday, '.'))
+                                            @php $guest->birthday = \Carbon\Carbon::createFromFormat('d.m.Y H:m:s', $guest->birthday)->format($this->format); @endphp   
+                                        @elseif(stripos($guest->birthday, ':') && stripos($guest->birthday, '-'))
+                                            @php $guest->birthday = \Carbon\Carbon::createFromFormat('Y-m-d H:m:s', $guest->birthday)->format($this->format); @endphp 
+                                        @elseif(stripos($guest->birthday, '.') && !stripos($guest->birthday, ':'))
+                                            @php $guest->birthday = \Carbon\Carbon::createFromFormat('d.m.Y', $guest->birthday)->format($this->format); @endphp 
+                                        @elseif(stripos($guest->birthday, '-') && !stripos($guest->birthday, ':'))
+                                            @php $guest->birthday = \Carbon\Carbon::createFromFormat('Y-m-d', $guest->birthday)->format($this->format); @endphp
+                                        @endif
+
                                         <p>{{ $guest->name }} - <strong>{{ $guest->birthday }}</strong></p>
                                     </div>
                                     <div class="uk-child-auto">
@@ -89,11 +100,17 @@
                                                     </div>
                                                 @enderror
 
-                                                @if(App::isLocale('ru'))
-                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-                                                @else
-                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
+                                                @if(stripos($this->birthday, ':') && stripos($this->birthday, '.'))
+                                                    @php $this->birthday = \Carbon\Carbon::createFromFormat('d.m.Y H:m:s', $this->birthday)->format($this->format); @endphp   
+                                                @elseif(stripos($this->birthday, ':') && stripos($this->birthday, '-'))
+                                                    @php $this->birthday = \Carbon\Carbon::createFromFormat('Y-m-d H:m:s', $this->birthday)->format($this->format); @endphp 
+                                                @elseif(stripos($this->birthday, '.') && !stripos($this->birthday, ':'))
+                                                    @php $this->birthday = \Carbon\Carbon::createFromFormat('d.m.Y', $this->birthday)->format($this->format); @endphp 
+                                                @elseif(stripos($this->birthday, '-') && !stripos($this->birthday, ':'))
+                                                    @php $this->birthday = \Carbon\Carbon::createFromFormat('Y-m-d', $this->birthday)->format($this->format); @endphp
                                                 @endif
+
+                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
                                             </div>
                                         </div>
@@ -127,6 +144,11 @@
                                         <div>
                                             <div class="uk-line-input">
                                                 <label class="block font-medium text-sm text-gray-700"><i>*</i> Birthday</label>
+                                                @if(App::isLocale('ru'))
+                                                    <small>(День-Месяц-Год)</small>
+                                                @else
+                                                    <small>(Month-Day-Year)</small>
+                                                @endif
                                                 @error('birthday')
                                                     <div class="uk-alert-danger" data-uk-alert>
                                                         <a class="uk-alert-close" data-uk-close></a>
@@ -134,11 +156,7 @@
                                                     </div>
                                                 @enderror   
 
-                                                @if(App::isLocale('ru'))
-                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-                                                @else
-                                                    <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-                                                @endif
+                                                <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
                                             </div>
                                         </div>
@@ -154,6 +172,18 @@
                             </div>
                         @endif
                     </div>
+
+                    <script>
+                        document.addEventListener('livewire:load', function () {
+                            @this.format = LocaleFormat();
+                            if(LocaleFormat() == 'm.d.Y') {
+                                @this.format_calendar = 2;
+                            } else {
+                                @this.format_calendar = 0;
+                            }
+                        });
+                    </script>
+
                 @else
                     <div class="uk-flex uk-flex-middle uk-flex-left" wire:click="add()">
                         <button class="uk-button uk-button-add">Add children</button>

@@ -62,11 +62,13 @@ if(typeof ob!=="object") {
 	}
 	if(ob==2 || ob==="now") { // Return Now
 		var D = new Date(), d = D.getDate(), m = D.getMonth()+1, y = D.getFullYear();
+		//var S = D.toLocaleDateString('en-US');
 		if(d<10) d = "0"+d;
 		if(m<10) m = "0"+m;
 		if(a.order==1) return y+a.delim+m+a.delim+d;
 		if(a.order==2) return m+a.delim+d+a.delim+y;
 		else return d+a.delim+m+a.delim+y;
+		//return S;
 	}
 }
 a.o = Nod(ob);

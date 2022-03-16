@@ -49,7 +49,10 @@
         <link rel="preload" href="/fonts/Montserrat/Montserrat-Bold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
         <link rel="preload" href="/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" type="font/woff2" crossorigin="anonymous" />
         {{-- Component: AddScript ==================================================== --}}
-        <link rel="preload" href="{{ mix('/js/js.min.js') }}" as="script" type="text/javascript"/>
+        {{--<link rel="preload" href="{{ mix('/js/js.min.js') }}" as="script" type="text/javascript"/>--}}
+        {{-- Component: AddScript ==================================================== --}}
+        {{-- Component: AddScript ==================================================== --}}
+        <script src="{{ mix('/js/js.min.js') }}"></script>
         {{-- Component: AddScript ==================================================== --}}
         {{-- Component: Preload ==================================================== --}}
         {{-- Component: Style ==================================================== --}}
@@ -543,7 +546,7 @@
         </div>
         @include('includes.cookie-message')
         {{-- Component: AddScript ==================================================== --}}
-        <script src="{{ mix('/js/js.min.js') }}"></script>
+        {{--<script src="{{ mix('/js/js.min.js') }}"></script>--}}
         {{-- Component: AddScript ==================================================== --}}
         @if(View::hasSection('script'))
             @yield('script')

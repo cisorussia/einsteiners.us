@@ -19,26 +19,11 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
      * @return void
      */
 
-    public $date_birth = null;
-    public $date_vaccine = null;
-
     public function update($user, array $input)
     {
-        if($input['birth'] !== 'null' && !empty($input['birth'])) {
-            if(App::isLocale('ru')) {
-                $input['birth'] = Carbon::createFromFormat('d-m-Y', $input['birth'])->format('Y-m-d'); // ДД.ММ.ГГГГ
-            } else {
-                $input['birth'] = Carbon::createFromFormat('m-d-Y', $input['birth'])->format('Y-m-d'); // ММ.ДД.ГГГГ
-            }
-        }
 
-        if($input['vaccine'] !== 'null' && !empty($input['vaccine'])) {
-            if(App::isLocale('ru')) {
-                $input['vaccine'] = Carbon::createFromFormat('d-m-Y', $input['vaccine'])->format('Y-m-d'); // ДД.ММ.ГГГГ
-            } else {
-                $input['vaccine'] = Carbon::createFromFormat('m-d-Y', $input['vaccine'])->format('Y-m-d'); // ММ.ДД.ГГГГ
-            }
-        }
+        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->format('Y-m-d'); // ДД.ММ.ГГГГ
+        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->format('Y-m-d');
         
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],

@@ -8,6 +8,7 @@ use App\Models\Children;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Carbon\Carbon;
 
 class ChildrenComponent extends Component
 {
@@ -15,6 +16,9 @@ class ChildrenComponent extends Component
     public $updateMode = false;
     public $addMode = false;
     public $confirmGuest = false;
+
+    public $format = 'd.m.Y';
+    public $format_calendar = '0';
 
     public function render()
     {
@@ -28,6 +32,7 @@ class ChildrenComponent extends Component
         $this->selected_guest = null;
         $this->name = null;
         $this->birthday = null;
+        $this->format = 'd.m.Y';
     }
 
     public function add()
@@ -49,10 +54,12 @@ class ChildrenComponent extends Component
 
     public function store()
     {
+        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->format('Y-m-d');
+
         $user = Auth::user();
         $this->validate([
             'name' => 'required|min:2',
-            'birthday' => 'required|min:2',
+            'birthday' => ['required', 'after:1945-01-01'],
         ]);
         Children::create([
             'name' => $this->name,
@@ -76,9 +83,11 @@ class ChildrenComponent extends Component
 
     public function update()
     {    
+        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->format('Y-m-d');
+
         $this->validate([
             'name' => 'required|min:2',
-            'birthday' => 'required|min:2',
+            'birthday' => ['required', 'after:1945-01-01'],
         ]);
         if ($this->selected_guest) {
             $event = Children::find($this->selected_guest);

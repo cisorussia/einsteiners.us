@@ -1,5 +1,4 @@
 <x-jet-form-section submit="updateProfileInformation">
-    
     <x-slot name="title">
         {{ __('Profile Information') }}
     </x-slot>
@@ -88,17 +87,8 @@
                 <small>(Month-Day-Year)</small>
             @endif
 
-            @if(App::isLocale('ru'))
-                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
-            @else
-                @php $this->state['birth'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['birth'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
-            @endif
-
-            @if(App::isLocale('ru'))
-                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-            @else
-                <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-            @endif
+            @php $this->state['birth'] = \Carbon\Carbon::createFromFormat(stripos($this->user['birth'], ':') ? 'Y-m-d H:m:s' : 'Y-m-d', $this->user['birth'])->format($this->format); @endphp
+            <x-jet-input id="birth" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.birth" onClick="xCal(this,'.', {{ $format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
             <x-jet-input-error for="birth" class="mt-2" />
         </div>
@@ -120,17 +110,8 @@
                 <small>(Month-Day-Year)</small>
             @endif
 
-            @if(App::isLocale('ru'))
-                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('d-m-Y'); /* ДД.ММ.ГГГГ */ @endphp
-            @else
-                @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat('Y-m-d', $this->user['vaccine'])->format('m-d-Y'); /* ДД.ММ.ГГГГ */ @endphp
-            @endif
-
-            @if(App::isLocale('ru'))
-                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',0)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-            @else
-                <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'-',2)" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\-[0-9]{2}\-[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__-__-____"/>
-            @endif
+            @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat(stripos($this->user['vaccine'], ':') ? 'Y-m-d H:m:s' : 'Y-m-d', $this->user['vaccine'])->format($this->format); @endphp 
+            <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'.', {{ $format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
             <x-jet-input-error for="vaccine" class="mt-2" />
         </div>
@@ -141,6 +122,21 @@
             @livewire('user.children-component', ['event_id' => '1'])
         </div>
 
+        <x-jet-input id="format" type="hidden" wire:model.defer="state.format"/>
+
+        <script>
+            document.addEventListener('livewire:load', function () {
+                @this.format = LocaleFormat();
+                var format = document.getElementById('format');
+                format.value = LocaleFormat();
+                format.dispatchEvent(new Event('input'));
+                if(LocaleFormat() == 'm.d.Y') {
+                    @this.format_calendar = 2;
+                } else {
+                    @this.format_calendar = 0;
+                }
+            });
+        </script>
     </x-slot>
     <x-slot name="actions">
         <x-jet-action-message class="mr-3" on="saved">

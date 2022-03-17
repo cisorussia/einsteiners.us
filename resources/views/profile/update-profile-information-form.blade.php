@@ -104,12 +104,6 @@
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="vaccine" value="{{ __('LangVaccine') }}" />
 
-            @if(App::isLocale('ru'))
-                <small>(День-Месяц-Год)</small>
-            @else
-                <small>(Month-Day-Year)</small>
-            @endif
-
             @php $this->state['vaccine'] = \Carbon\Carbon::createFromFormat(stripos($this->user['vaccine'], ':') ? 'Y-m-d H:m:s' : 'Y-m-d', $this->user['vaccine'])->format($this->format); @endphp 
             <x-jet-input id="vaccine" type="text" class="mt-1 block w-full datepicker-here" wire:model.defer="state.vaccine" onClick="xCal(this,'.', {{ $format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 

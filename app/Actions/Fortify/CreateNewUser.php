@@ -7,11 +7,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
 use Laravel\Jetstream\Jetstream;
+use Carbon\Carbon;
 
 class CreateNewUser implements CreatesNewUsers
 {
     use PasswordValidationRules;
-
+    
     /**
      * Validate and create a newly registered user.
      *
@@ -20,13 +21,16 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
+        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->format('Y-m-d');
+        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->format('Y-m-d');
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
-            'birth' => ['required', 'string', 'max:255'],
+            'birth' => ['required', 'after:1945-01-01'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'phone' => ['required', 'string', 'max:255', 'unique:users'],
-            'vaccine' => ['string', 'max:255'],
+            'vaccine' => ['required', 'after:2020-01-01'],
             'role_id' => ['required', 'string', 'max:1'],
             'gender_id' => ['required', 'string', 'max:1'],
             'password' => $this->passwordRules(),

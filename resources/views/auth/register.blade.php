@@ -90,11 +90,9 @@
                 </div>
                 <br />
                 <div class="uk-line uk-line-clean">
-                    @if(App::isLocale('ru'))
-                        <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
-                    @else
-                        <input id="birth" class="uk-input datepicker-here" name="birth" type="text" :value="old('birth')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
-                    @endif
+
+                    <input id="birth" type="text" class="uk-input datepicker-here" name="birth" :value="old('birth')" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
+
                     <label for="birth"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('Date of birth') }}</label>
                     <span class="uk-border"></span>
                 </div>
@@ -119,13 +117,9 @@
                     <span class="uk-border"></span>
                 </div>
                 <br />
-                <div class="uk-line uk-line-clean">
+                <div class="uk-line uk-line-clean"> 
 
-                    @if(App::isLocale('ru'))
-                        <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
-                    @else
-                        <input id="vaccine" class="uk-input datepicker-here" name="vaccine" type="text" :value="old('vaccine')" onkeydown="inputAction.call(this);inputLine.call(this);" onClick="xCal(this,'.',0)" onKeyUp="xCal()" oninput="xCal()" required />
-                    @endif
+                    <input id="vaccine" type="text" class="uk-input datepicker-here" name="vaccine" :value="old('vaccine')" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
                     <label for="vaccine"><span class="uk-icon" data-uk-icon="icon: calendar"></span> <i>*</i> {{ __('LangVaccine') }}</label>
                     <span class="uk-border"></span>
@@ -144,6 +138,7 @@
                 </div>
                 <br />
                 <div class="uk-text-center">
+                    <input id="format" type="hidden" name="format" value=""/>
                     <div class="uk-button">
                         <input type="submit" value="{{ __('Register') }}">
                     </div>
@@ -159,50 +154,32 @@
                 <div class="uk-block-notification uk-text-center">
                     {{ __('LanPoli1') }} <a class="uk-consent" href="#consent" data-uk-toggle onClick="showContent.call(this);event.preventDefault();" data-link="con-consent" data-load="consentloading" data-position="consentBody">{{ __('LanPoli2') }}</a>.
                 </div>
-                {{--
-                <div>
-                    <x-jet-label for="name" value="{{ __('Name') }}" />
-                    <x-jet-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-                </div>
-                <div class="mt-4">
-                    <x-jet-label for="email" value="{{ __('Email') }}" />
-                    <x-jet-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" onClick="inputAction.call(this);inputLine.call(this);" pattern="([A-z0-9_.-]{1,})@([A-z0-9_.-]{1,}).([A-z]{2,8})" required />
-                </div>
-                <div class="mt-4">
-                    <x-jet-label for="password" value="{{ __('Password') }}" />
-                    <x-jet-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-                </div>
-                <div class="mt-4">
-                    <x-jet-label for="password_confirmation" value="{{ __('Confirm Password') }}" />
-                    <x-jet-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required autocomplete="new-password" />
-                </div>
-                @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
-                    <div class="mt-4">
-                        <x-jet-label for="terms">
-                            <div class="flex items-center">
-                                <x-jet-checkbox name="terms" id="terms"/>
-
-                                <div class="ml-2">
-                                    {!! __('I agree to the :terms_of_service and :privacy_policy', [
-                                            'terms_of_service' => '<a target="_blank" href="'.route('terms.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Terms of Service').'</a>',
-                                            'privacy_policy' => '<a target="_blank" href="'.route('policy.show').'" class="underline text-sm text-gray-600 hover:text-gray-900">'.__('Privacy Policy').'</a>',
-                                    ]) !!}
-                                </div>
-                            </div>
-                        </x-jet-label>
-                    </div>
-                @endif
-                <div class="flex items-center justify-end mt-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('login') }}">
-                        {{ __('Already registered?') }}
-                    </a>
-
-                    <x-jet-button class="ml-4">
-                        {{ __('Register') }}
-                    </x-jet-button>
-                </div>
-                --}}
             </form>
+            <script>
+                document.addEventListener('livewire:load', function () {
+                    var format = LocaleFormat();
+                    document.getElementById('format').value = format;
+                    if(LocaleFormat() == 'm.d.Y') {
+                        document.getElementById('vaccine').onclick=function() {
+                            xCal(document.getElementById('vaccine'),'.', '2');
+                            document.getElementById('vaccine').classList.add("uk-active");
+                        }
+                        document.getElementById('birth').onclick=function() {
+                            xCal(document.getElementById('birth'),'.', '2');
+                            document.getElementById('birth').classList.add("uk-active");
+                        }
+                    } else {
+                        document.getElementById('vaccine').onclick=function() {
+                            xCal(document.getElementById('vaccine'),'.', '2');
+                            document.getElementById('vaccine').classList.add("uk-active");
+                        }
+                        document.getElementById('birth').onclick=function() {
+                            xCal(document.getElementById('birth'),'.', '2');
+                            document.getElementById('birth').classList.add("uk-active");
+                        }
+                    }
+                });
+            </script>
         </div>
     </x-jet-authentication-card>
 </x-guest-layout>

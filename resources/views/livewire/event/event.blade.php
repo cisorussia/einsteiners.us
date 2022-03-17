@@ -361,7 +361,7 @@
         <div class="uk-screen-clean uk-flex uk-flex-middle uk-flex-center">
             <div class="uk-text-center">
                 <div>
-                    <span class="uk-icon" data-uk-icon="icon: album; ratio: 2"></span>
+                    <span class="uk-icon" data-uk-icon="icon: album; ratio: 2" wire:ignore></span>
                 </div>
                 <h2>{{ __('lanEventClean') }}</h2>
                 <p>{{ __('lanEventCleanDesk') }}</p>
@@ -386,14 +386,14 @@
                     <div class="uk-image" data-src="{{ route('storage') }}/{{ $event->cover_path }}" data-uk-img>
                         @if($event['reviewed'] > 0)
                             <div class="uk-view uk-flex uk-flex-middle uk-button uk-button-symbol" data-uk-tooltip="title: {{ __('LanRew') }}; pos: bottom">
-                                <span class="uk-icon" data-uk-icon="play-circle"></span> <span>{{ $event->reviewed }}</span>
+                                <span class="uk-icon" data-uk-icon="play-circle" wire:ignore></span> <span>{{ $event->reviewed }}</span>
                             </div>
                         @endif
                     </div>
                 @endif
                 @if($event->date_event > date('Y-m-d'))
                     <div class="uk-panel-time" wire:ignore>
-                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $event['date_time'] . ':00'; @endphp">
+                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromFormat(date_extract_format($event->date_event), $event->date_event)->format('Y-m-d') . "T" . $event['date_time']; @endphp">
                             <div>
                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -442,11 +442,11 @@
                                             <div>
                                                 @if($event->active == 0)
                                                     <button class="uk-button uk-button-symbol" wire:click="activeConfirm({{ $event->id }})" data-uk-tooltip="title: {{ __('LanActive') }}; pos: bottom">
-                                                        <span class="uk-icon uk-update" data-uk-icon="icon: check"></span>
+                                                        <span class="uk-icon uk-update" data-uk-icon="icon: check" wire:ignore></span>
                                                     </button>
                                                 @else
                                                     <button class="uk-button uk-button-symbol" wire:click="deactiveConfirm({{ $event->id }})" data-uk-tooltip="title: {{ __('LanDeactive') }}; pos: bottom">
-                                                        <span class="uk-icon uk-update" data-uk-icon="icon: ban"></span>
+                                                        <span class="uk-icon uk-update" data-uk-icon="icon: ban" wire:ignore></span>
                                                     </button>
                                                 @endif
                                             </div>
@@ -469,7 +469,7 @@
                                         <div class="uk-grid uk-grid-collapse uk-flex uk-flex-middle" data-uk-grid>
                                             <div class="uk-width-expand@xs">
                                                 <div class="uk-flex uk-flex-middle">
-                                                    <span class="uk-icon-link" data-uk-icon="icon: link"></span>
+                                                    <span class="uk-icon-link" data-uk-icon="icon: link" wire:ignore></span>
                                                     
                                                     @if($event->active == 0)
                                                         <span class="uk-text-link" id="copy-{{ $event->id }}">{{ __('LanDeactiveAdminMessage') }}</span>
@@ -492,7 +492,7 @@
                         </div>
                         <div class="uk-width-auto@m">
                             <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} {{ $this->format }}; pos: bottom">
-                                <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date, $this->format); @endphp</span>
+                                <span data-uk-icon="icon: calendar" wire:ignore></span> <span>@php echo date_format($date, $this->format); @endphp</span>
                             </div>
                         </div>
                     </div>

@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="uk-grid uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
                                     <div class="uk-width-expand">
-                                        @php $guest->birthday = \Carbon\Carbon::createFromFormat(date_extract_format($guest->birthday), $guest->birthday)->format($this->format); @endphp
+                                        @php $guest->birthday = \Carbon\Carbon::createFromTimestamp($guest->birthday)->format($this->format); @endphp
                                         <p>{{ $guest->name }} - <strong>{{ $guest->birthday }}</strong></p>
                                     </div>
                                     <div class="uk-child-auto">
@@ -129,10 +129,8 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                
-                                                @php $this->birthday = \Carbon\Carbon::createFromFormat(date_extract_format($this->birthday), $this->birthday)->format($this->format); @endphp
+                                                @php $this->birthday = \Carbon\Carbon::createFromTimestamp($this->birthday)->format($this->format); @endphp
                                                 <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
-
                                             </div>
                                         </div>
                                         <div>

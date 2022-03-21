@@ -15,6 +15,8 @@ class ActivitielistComponent extends Component
     public $selected_categorie;
     public $categories;
 
+    public $format = 'd.m.Y';
+
     public function render()
     {
         $this->categories = Categorie::all()->take(10);

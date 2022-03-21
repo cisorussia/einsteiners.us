@@ -36,9 +36,6 @@
 </script>
 @endsection
 @section('content')
-@php
-    $date = new DateTime($event->date_event);
-@endphp
 <div class="uk-screen uk-screen-page uk-screen-events uk-screen-view">
     <div class="uk-container uk-container-center">
         <div>
@@ -67,19 +64,13 @@
                             <strong>{{ $autor->name }}</strong>
                         </div>
                         <div class="uk-content-colum">
-                            @if(App::isLocale('ru'))
-                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Day-Month-Year; pos: bottom">
-                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"d-m-Y"); @endphp</span>
-                                </div>
-                            @else
-                                <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} Month-Day-Year; pos: bottom">
-                                    <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date,"m-d-Y"); @endphp</span>
-                                </div>
-                            @endif 
+                            <div class="uk-date @if($event->date_event < \Carbon\Carbon::now()->timestamp) uk-passed @endif uk-flex uk-flex-middle">
+                                <span data-uk-icon="icon: calendar"></span> <span>@php echo Carbon\Carbon::createFromTimestamp($event->date_event)->format('d.m.Y'); @endphp</span>
+                            </div>
                         </div>
-                        @if($event->date_event > date('Y-m-d'))
+                        @if($event->date_event >\Carbon\Carbon::now()->timestamp)
                             <div class="uk-panel-time">
-                                <div class="uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $event->date_time . ':00'; @endphp">
+                                <div class="uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromTimestamp($event->date_event)->format('Y-m-d'). "T" . $event->date_time; @endphp">
                                     <div>
                                         <div class="uk-countdown-number uk-countdown-days"></div>
                                         <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>

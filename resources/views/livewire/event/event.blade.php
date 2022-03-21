@@ -165,7 +165,7 @@
                                         </div>
                                     @enderror
 
-                                    @php $this->date_event = \Carbon\Carbon::createFromFormat(date_extract_format($this->date_event), $this->date_event)->format($this->format); @endphp
+                                    @php $this->date_event = \Carbon\Carbon::createFromTimestamp($this->date_event)->format($this->format); @endphp
 
                                     <input class="uk-input datepicker-here" wire:model.defer="date_event" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
 
@@ -374,9 +374,6 @@
 
     <div class="uk-grid uk-grid-small uk-child-width-1-1@m" data-uk-grid>
         @foreach ($events as $event)
-        @php
-            $date = new DateTime($event->date_event);
-        @endphp
         <div id="element-{{ $event->id }}" class="@if($event->active == 0) uk-deactive @endif">
             <div class="uk-panel">
                 <div class="uk-loading" wire:loading.flex wire:target="delete({{ $event->id }})">
@@ -391,9 +388,9 @@
                         @endif
                     </div>
                 @endif
-                @if($event->date_event > date('Y-m-d'))
+                @if($event->date_event > \Carbon\Carbon::now()->timestamp)
                     <div class="uk-panel-time" wire:ignore>
-                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromFormat(date_extract_format($event->date_event), $event->date_event)->format('Y-m-d') . "T" . $event['date_time']; @endphp">
+                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromTimestamp($event['date_event'])->format('Y-m-d'). "T" . $event['date_time']; @endphp">
                             <div>
                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -491,8 +488,8 @@
                             </div>
                         </div>
                         <div class="uk-width-auto@m">
-                            <div class="uk-date @if($event->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} {{ $this->format }}; pos: bottom">
-                                <span data-uk-icon="icon: calendar" wire:ignore></span> <span>@php echo date_format($date, $this->format); @endphp</span>
+                            <div class="uk-date @if($event->date_event < \Carbon\Carbon::now()->timestamp) uk-passed @endif uk-flex uk-flex-middle">
+                                <span data-uk-icon="icon: calendar" wire:ignore></span> <span>@php echo \Carbon\Carbon::createFromTimestamp($event['date_event'])->format($this->format); @endphp</span>
                             </div>
                         </div>
                     </div>

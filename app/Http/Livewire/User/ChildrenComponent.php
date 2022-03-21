@@ -54,7 +54,7 @@ class ChildrenComponent extends Component
 
     public function store()
     {
-        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->format('Y-m-d');
+        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->timestamp;
 
         $user = Auth::user();
         $this->validate([
@@ -83,7 +83,7 @@ class ChildrenComponent extends Component
 
     public function update()
     {    
-        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->format('Y-m-d');
+        $this->birthday = Carbon::createFromFormat($this->format, $this->birthday)->timestamp;
 
         $this->validate([
             'name' => 'required|min:2',

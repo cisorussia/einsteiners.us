@@ -41,11 +41,11 @@
     <div class="uk-container uk-container-center">
         @if(App::isLocale('ru'))
             <p>
-            Калькулятор (Денис)
+            Калькулятор ()
             </p>
         @else
             <p>
-            Calc (Denis)
+            Calc ()
             </p>
         @endif
     </div>

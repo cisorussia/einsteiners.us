@@ -41,33 +41,7 @@
     <div class="uk-container uk-container-center">
         @if(App::isLocale('ru'))
             <p>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" data-uk-icon="icon: calendar"></span>
-                        <input class="uk-input" type="date" min="1945-01-01">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" data-uk-icon="icon: clock"></span>
-                        <input class="uk-input" type="time">
-                    </div>
-                </div>
-            </p>
-        @else
-            <p>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" data-uk-icon="icon: calendar"></span>
-                        <input class="uk-input" type="date" min="1945-01-01">
-                    </div>
-                </div>
-                <div class="uk-margin">
-                    <div class="uk-inline">
-                        <span class="uk-form-icon" data-uk-icon="icon: clock"></span>
-                        <input class="uk-input" type="time">
-                    </div>
-                </div>
+            
             </p>
         @endif
 

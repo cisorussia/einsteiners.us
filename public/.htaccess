@@ -1,9 +1,5 @@
 <IfModule mod_rewrite.c>
 
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
-
     <IfModule mod_rewrite.c>
         RewriteEngine On
 
@@ -21,103 +17,5 @@
         RewriteCond %{REQUEST_FILENAME} !-f
         RewriteRule ^ index.php [L]
     </IfModule>
-
-    <ifModule mod_headers.c>
-        Header set Connection keep-alive
-        Header unset ETag
-        FileETag None
-        <filesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|swf)$">
-        Header set Cache-Control "max-age=2592000, public"
-        </filesMatch>
-        <filesMatch "\.(css)$">
-        Header set Cache-Control "max-age=3600, public"
-        </filesMatch>
-        <filesMatch "\.(js)$">
-        Header set Cache-Control "max-age=3600, public"
-        </filesMatch>
-        <filesMatch "\.(xml|txt)$">
-        Header set Cache-Control "max-age=2592000, public, must-revalidate"
-        </filesMatch>
-        <filesMatch "\.(html|htm|php)$">
-        #Header set Cache-Control "max-age=3600, private, must-revalidate"
-        </filesMatch>
-    </ifModule>
-
-    <IfModule mod_expires.c>
-        ExpiresActive on
-        ExpiresDefault                                      "access plus 1 month"
-        ExpiresByType text/css                              "access plus 1 hour"
-        ExpiresByType application/atom+xml                  "access plus 1 week"
-        ExpiresByType application/rdf+xml                   "access plus 1 week"
-        ExpiresByType application/rss+xml                   "access plus 1 week"
-        ExpiresByType application/json                      "access plus 0 seconds"
-        ExpiresByType application/ld+json                   "access plus 0 seconds"
-        ExpiresByType application/schema+json               "access plus 0 seconds"
-        ExpiresByType application/vnd.geo+json              "access plus 0 seconds"
-        ExpiresByType application/xml                       "access plus 0 seconds"
-        ExpiresByType text/xml                              "access plus 0 seconds"
-        ExpiresByType image/vnd.microsoft.icon              "access plus 1 week"
-        ExpiresByType image/x-icon                          "access plus 1 week"
-        #ExpiresByType text/html                             "access plus 1 hour"
-        ExpiresByType application/javascript                "access plus 1 year"
-        ExpiresByType application/x-javascript              "access plus 1 year"
-        ExpiresByType text/javascript                       "access plus 1 hour"
-        ExpiresByType application/manifest+json             "access plus 1 week"
-        ExpiresByType application/x-web-app-manifest+json   "access plus 0 seconds"
-        ExpiresByType text/cache-manifest                   "access plus 0 seconds"
-        ExpiresByType audio/ogg                             "access plus 1 month"
-        ExpiresByType image/bmp                             "access plus 1 month"
-        ExpiresByType image/gif                             "access plus 1 month"
-        ExpiresByType image/jpeg                            "access plus 1 month"
-        ExpiresByType image/png                             "access plus 1 month"
-        ExpiresByType image/svg+xml                         "access plus 1 month"
-        ExpiresByType image/webp                            "access plus 1 month"
-        ExpiresByType video/mp4                             "access plus 1 month"
-        ExpiresByType video/ogg                             "access plus 1 month"
-        ExpiresByType video/webm                            "access plus 1 month"
-        ExpiresByType application/vnd.ms-fontobject         "access plus 1 month"
-        ExpiresByType font/eot                              "access plus 1 month"
-        ExpiresByType font/opentype                         "access plus 1 month"
-        ExpiresByType application/x-font-ttf                "access plus 1 month"
-        ExpiresByType application/font-woff                 "access plus 1 month"
-        ExpiresByType application/x-font-woff               "access plus 1 month"
-        ExpiresByType font/woff                             "access plus 1 month"
-        ExpiresByType application/font-woff2                 "access plus 1 month"
-        ExpiresByType application/x-font-woff2               "access plus 1 month"
-        ExpiresByType font/woff2                             "access plus 1 month"
-        ExpiresByType application/font-woff2                "access plus 1 month"
-        ExpiresByType text/x-cross-domain-policy            "access plus 1 week"
-    </IfModule>
-
-    <IfModule mod_deflate.c>
-        AddOutputFilterByType DEFLATE application/javascript
-        AddOutputFilterByType DEFLATE application/rss+xml
-        AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
-        AddOutputFilterByType DEFLATE application/x-font
-        AddOutputFilterByType DEFLATE application/x-font-opentype
-        AddOutputFilterByType DEFLATE application/x-font-otf
-        AddOutputFilterByType DEFLATE application/x-font-truetype
-        AddOutputFilterByType DEFLATE application/x-font-ttf
-        AddOutputFilterByType DEFLATE application/x-javascript
-        AddOutputFilterByType DEFLATE application/xhtml+xml
-        AddOutputFilterByType DEFLATE application/xml
-        AddOutputFilterByType DEFLATE font/opentype
-        AddOutputFilterByType DEFLATE font/otf
-        AddOutputFilterByType DEFLATE font/ttf
-        AddOutputFilterByType DEFLATE font/woff
-        AddOutputFilterByType DEFLATE font/woff2
-        AddOutputFilterByType DEFLATE image/svg+xml
-        AddOutputFilterByType DEFLATE image/svg
-        AddOutputFilterByType DEFLATE image/x-icon
-        AddOutputFilterByType DEFLATE text/css
-        AddOutputFilterByType DEFLATE text/html
-        AddOutputFilterByType DEFLATE text/javascript
-        AddOutputFilterByType DEFLATE text/plain
-        AddOutputFilterByType DEFLATE text/xml
-        AddOutputFilterByType DEFLATE image/webp
-        BrowserMatch ^Mozilla/4 gzip-only-text/html
-        BrowserMatch ^Mozilla/4\.0[678] no-gzip
-        BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
-        Header append Vary User-Agent
-    </IfModule>
+    
 </IfModule>

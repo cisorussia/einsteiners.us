@@ -11,20 +11,11 @@ use Carbon\Carbon;
 
 class UpdateUserProfileInformation implements UpdatesUserProfileInformation
 {
-    /**
-     * Validate and update the given user's profile information.
-     *
-     * @param  mixed  $user
-     * @param  array  $input
-     * @return void
-     */
-
     public function update($user, array $input)
-    {
+    {   
+        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->timestamp;
+        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->timestamp;
 
-        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->format('Y-m-d'); // ДД.ММ.ГГГГ
-        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->format('Y-m-d');
-        
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],

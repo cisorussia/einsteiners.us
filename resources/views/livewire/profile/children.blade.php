@@ -1,45 +1,4 @@
 <div>
-    @php
-        function date_extract_format( $d, $null = '' ) {
-            // check Day -> (0[1-9]|[1-2][0-9]|3[0-1])
-            // check Month -> (0[1-9]|1[0-2])
-            // check Year -> [0-9]{4} or \d{4}
-            $patterns = array(
-                '/\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,8}Z\b/' => 'Y-m-d\TH:i:s.u\Z', // format DATE ISO 8601
-                '/\b\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y-m-d',
-                '/\b\d{4}-(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])\b/' => 'Y-d-m',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-\d{4}\b/' => 'd-m-Y',
-                '/\b(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{4}\b/' => 'm-d-Y',
-
-                '/\b\d{4}\/(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\b/' => 'Y/d/m',
-                '/\b\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y/m/d',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}\b/' => 'd/m/Y',
-                '/\b(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/\d{4}\b/' => 'm/d/Y',
-
-                '/\b\d{4}\.(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y.m.d',
-                '/\b\d{4}\.(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\b/' => 'Y.d.m',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.\d{4}\b/' => 'd.m.Y',
-                '/\b(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\.\d{4}\b/' => 'm.d.Y',
-
-                // for 24-hour | hours seconds
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'H:i:s.u',
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'H:i:s',
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9]\b/' => 'H:i',
-
-                // for 12-hour | hours seconds
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'h:i:s.u',
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'h:i:s',
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9]\b/' => 'h:i',
-
-                '/\.\d{3}\b/' => '.v'
-            );
-            //$d = preg_replace('/\b\d{2}:\d{2}\b/', 'H:i',$d);
-            $d = preg_replace( array_keys( $patterns ), array_values( $patterns ), $d );
-
-            return preg_match( '/\d/', $d ) ? $null : $d;
-        }
-    @endphp
-
     @if ($confirmGuest)
         <div id="guestevent" class="uk-modal uk-modal-event uk-open uk-flex-top" style="display: flex" data-uk-modal>
             <div class="uk-modal-dialog uk-margin-auto-vertical uk-modal-body uk-animation-slide-top">
@@ -77,7 +36,7 @@
                                 </div>
                                 <div class="uk-grid uk-grid-small uk-flex uk-flex-middle" data-uk-grid>
                                     <div class="uk-width-expand">
-                                        @php $guest->birthday = \Carbon\Carbon::createFromFormat(date_extract_format($guest->birthday), $guest->birthday)->format($this->format); @endphp
+                                        @php $guest->birthday = \Carbon\Carbon::createFromTimestamp($guest->birthday)->format($this->format); @endphp
                                         <p>{{ $guest->name }} - <strong>{{ $guest->birthday }}</strong></p>
                                     </div>
                                     <div class="uk-child-auto">
@@ -129,10 +88,8 @@
                                                         {{ $message }}
                                                     </div>
                                                 @enderror
-                                                
-                                                @php $this->birthday = \Carbon\Carbon::createFromFormat(date_extract_format($this->birthday), $this->birthday)->format($this->format); @endphp
+                                                @php $this->birthday = \Carbon\Carbon::createFromTimestamp($this->birthday)->format($this->format); @endphp
                                                 <input class="border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm mt-1 block w-full datepicker-here" wire:model.defer="birthday" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
-
                                             </div>
                                         </div>
                                         <div>

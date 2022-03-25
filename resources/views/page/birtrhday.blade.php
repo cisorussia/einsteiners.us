@@ -41,13 +41,40 @@
     <div class="uk-container uk-container-center">
         @if(App::isLocale('ru'))
             <p>
-            Калькулятор 
-            </p>
-        @else
-            <p>
-            Calc 
+            
             </p>
         @endif
+
+        <br /><br /><br /><br /><br /><br /><br /><br />
+
+        <input type="date" class="mt-1 block w-full" value="949442017" />
+        <pre> Если сервер передает дату 01.02.2000 в формате милисекунд (949442017) напрямую в value input - Дата выводиться не корреткная < input type="date" value="949442017" /> </pre>
+        <br /><br /><br /><br /><br /><br /><br /><br />
+        <br />
+        Если не разбирать дату: То получаем не верный вывод даты меняц->день (Так как сервер не знает что идет первым (DD/MM или MM/DD))<br /><br />
+        В обратную сторону данное правило тоже будет работать. При получении данных сервером и переводе даты в (timestamp) серверу необходимо явно сообщить как верно понимать строку где месяц а где день.
+        <br /><br /><br /><br />
+        Формат YYYY-MM-DD (*Строка 2022-02-01): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('2022-02-01')->format('d.m.Y') }}) <br />
+        <pre> Carbon::parse('2022-02-01')->format('d-m-Y') </pre><br />
+        Формат YYYY/MM/DD (*Строка 2022/02/01): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('2022/02/01')->format('d.m.Y') }}) <br />
+        <pre> Carbon::parse('2022/02/01')->format('d-m-Y') </pre><br />
+        Формат DD/MM/YYYY (*Строка 01/02/2022): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('01/02/2022')->format('d.m.Y') }}) - Не верный<br />
+        <pre> Carbon::parse('01/02/2022')->format('d-m-Y') </pre><br />
+        Формат MM/DD/YYYY (*Строка 02/01/2022): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('02/01/2022')->format('d.m.Y') }}) - Не верный<br />
+        <pre> Carbon::parse('02/01/2022')->format('d-m-Y') </pre><br />
+        Формат DD.MM.YYYY (*Строка 01.02.2022): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('01.02.2022')->format('d.m.Y') }}) <br />
+        <pre> Carbon::parse('01.02.2022')->format('d-m-Y') </pre><br />
+        Формат MM.DD.YYYY (*Строка 02.01.2022): (Пользователь увидет d.m.Y / {{ \Carbon\Carbon::parse('02.01.2022')->format('d.m.Y') }}) - Не верный<br />
+        <pre> Carbon::parse('02.01.2022')->format('d-m-Y') </pre><br />
+
+        <br />
+        <small>* Строка - формат датты которую вводить пользователь в поле ввода;</small><br />
+        <small>** Carbon аналог Date();</small>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            //alert( new Date().toLocaleDateString('en-US') );
+        }, false);
+    </script>
 </div>
 @endsection

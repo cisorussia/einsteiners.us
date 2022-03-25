@@ -19,9 +19,6 @@
         </div>
         <div class="uk-list-event uk-grid uk-child-width-1-3@m uk-grid-small" data-uk-grid data-uk-height-match="target: > div > .uk-card">
             @foreach ($activities as $activitie)
-            @php
-                $date = new DateTime($activitie->date_event);
-            @endphp
             <div>
                 <div class="uk-card">
                     <div class="uk-image" data-src="{{ route('storage') }}/{{ $activitie->cover_path }}" data-uk-img>
@@ -29,9 +26,9 @@
                             <span>{{ $activitie->age }}</span>
                         @endif
                     </div>
-                    @if($activitie->date_event > date('Y-m-d'))
+                    @if($activitie->date_event > \Carbon\Carbon::now()->timestamp)
                         <div class="uk-panel-time" wire:ignore>
-                            <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $activitie['date_time'] . ':00'; @endphp">
+                            <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromTimestamp($activitie['date_event'])->format('Y-m-d'). "T" . $activitie['date_time']; @endphp">
                                 <div>
                                     <div class="uk-countdown-number uk-countdown-days"></div>
                                     <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -55,8 +52,8 @@
                         </div>
                     @endif
                     <div class="uk-content">
-                        <div class="uk-date">
-                            <span>{{ date_format($date,"d.m") }}</span> {{ date_format($date,"Y") }}, {{ $activitie->date_time }}
+                        <div class="uk-date @if($activitie->date_event < \Carbon\Carbon::now()->timestamp) uk-passed @endif uk-flex uk-flex-middle">
+                            <span data-uk-icon="icon: calendar" wire:ignore></span> <span>@php echo \Carbon\Carbon::createFromTimestamp($activitie['date_event'])->format($this->format); @endphp</span>
                         </div>
                         <h2>{{ $activitie->name }}</h2>
                         <ul class="uk-list" wire:ignore>
@@ -75,4 +72,9 @@
             @endforeach
         </div>
     </div>
+    <script>
+        document.addEventListener('livewire:load', function () {
+            @this.format = LocaleFormat();
+        });
+    </script>
 </div>

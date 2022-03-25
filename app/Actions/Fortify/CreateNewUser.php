@@ -21,8 +21,8 @@ class CreateNewUser implements CreatesNewUsers
      */
     public function create(array $input)
     {
-        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->format('Y-m-d');
-        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->format('Y-m-d');
+        $input['birth'] = Carbon::createFromFormat($input['format'], $input['birth'])->timestamp;
+        $input['vaccine'] = Carbon::createFromFormat($input['format'], $input['vaccine'])->timestamp;
 
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],

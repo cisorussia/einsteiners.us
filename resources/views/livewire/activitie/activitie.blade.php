@@ -1,44 +1,4 @@
 <div id="component">
-    @php
-        function date_extract_format( $d, $null = '' ) {
-            // check Day -> (0[1-9]|[1-2][0-9]|3[0-1])
-            // check Month -> (0[1-9]|1[0-2])
-            // check Year -> [0-9]{4} or \d{4}
-            $patterns = array(
-                '/\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3,8}Z\b/' => 'Y-m-d\TH:i:s.u\Z', // format DATE ISO 8601
-                '/\b\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y-m-d',
-                '/\b\d{4}-(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])\b/' => 'Y-d-m',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-\d{4}\b/' => 'd-m-Y',
-                '/\b(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])-\d{4}\b/' => 'm-d-Y',
-
-                '/\b\d{4}\/(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\b/' => 'Y/d/m',
-                '/\b\d{4}\/(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y/m/d',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/\d{4}\b/' => 'd/m/Y',
-                '/\b(0[1-9]|1[0-2])\/(0[1-9]|[1-2][0-9]|3[0-1])\/\d{4}\b/' => 'm/d/Y',
-
-                '/\b\d{4}\.(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\b/' => 'Y.m.d',
-                '/\b\d{4}\.(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\b/' => 'Y.d.m',
-                '/\b(0[1-9]|[1-2][0-9]|3[0-1])\.(0[1-9]|1[0-2])\.\d{4}\b/' => 'd.m.Y',
-                '/\b(0[1-9]|1[0-2])\.(0[1-9]|[1-2][0-9]|3[0-1])\.\d{4}\b/' => 'm.d.Y',
-
-                // for 24-hour | hours seconds
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'H:i:s.u',
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'H:i:s',
-                '/\b(?:2[0-3]|[01][0-9]):[0-5][0-9]\b/' => 'H:i',
-
-                // for 12-hour | hours seconds
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\.\d{3,6}\b/' => 'h:i:s.u',
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9](:[0-5][0-9])\b/' => 'h:i:s',
-                '/\b(?:1[012]|0[0-9]):[0-5][0-9]\b/' => 'h:i',
-
-                '/\.\d{3}\b/' => '.v'
-            );
-            //$d = preg_replace('/\b\d{2}:\d{2}\b/', 'H:i',$d);
-            $d = preg_replace( array_keys( $patterns ), array_values( $patterns ), $d );
-
-            return preg_match( '/\d/', $d ) ? $null : $d;
-        }
-    @endphp
     @if (session()->has('message'))
         <div class="uk-alert-success" data-uk-alert>
             <a class="uk-alert-close" data-uk-close></a>
@@ -209,7 +169,7 @@
                                             </div>
                                         @enderror
 
-                                        @php $this->date_event = \Carbon\Carbon::createFromFormat(date_extract_format($this->date_event), $this->date_event)->format($this->format); @endphp
+                                        @php $this->date_event = \Carbon\Carbon::createFromTimestamp($this->date_event)->format($this->format); @endphp
 
                                         <input class="uk-input datepicker-here" wire:model.defer="date_event" type="text" onClick="xCal(this,'.', {{ $this->format_calendar }})" onKeyUp="xCal()" oninput="xCal()" pattern="[0-9]{2}\.[0-9]{2}\.[0-9]{4}" onFocus="maskPhone.call(this);" placeholder="__.__.____"/>
                                     </div>
@@ -606,9 +566,6 @@
 
     <div class="uk-grid uk-grid-small uk-child-width-1-1@m" data-uk-grid>
         @foreach ($activities as $activitie)
-        @php
-            $date = new DateTime($activitie->date_event);
-        @endphp
         <div id="element-{{ $activitie->id }}" @if($activitie->active == 0) class="uk-deactive" @endif>
             <div class="uk-panel">
                 <div class="uk-loading" wire:loading.flex wire:target="delete({{ $activitie->id }})">
@@ -623,9 +580,9 @@
                         @endif
                     </div>
                 @endif
-                @if($activitie->date_event > date('Y-m-d'))
+                @if($activitie->date_event > \Carbon\Carbon::now()->timestamp)
                     <div class="uk-panel-time" wire:ignore>
-                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo date_format($date,"Y-m-d") . "T" . $activitie['date_time'] . ':00'; @endphp">
+                        <div class="uk-grid uk-grid-small uk-child-width-auto" data-uk-grid data-uk-countdown="date: @php echo \Carbon\Carbon::createFromTimestamp($activitie['date_event'])->format('Y-m-d'). "T" . $activitie['date_time']; @endphp">
                             <div>
                                 <div class="uk-countdown-number uk-countdown-days"></div>
                                 <div class="uk-countdown-label uk-margin-small uk-text-center">{{ __('LanDays') }}</div>
@@ -722,8 +679,8 @@
                             </div>
                         </div>
                         <div class="uk-width-auto@m">
-                            <div class="uk-date @if($activitie->date_event < date('Y-m-d')) uk-passed @endif uk-flex uk-flex-middle" data-uk-tooltip="title: {{ __('lanEventDate') }} {{ $this->format }}; pos: bottom">
-                                <span data-uk-icon="icon: calendar"></span> <span>@php echo date_format($date, $this->format); @endphp</span>
+                            <div class="uk-date @if($activitie->date_event < \Carbon\Carbon::now()->timestamp) uk-passed @endif uk-flex uk-flex-middle">
+                                <span data-uk-icon="icon: calendar" wire:ignore></span> <span>@php echo \Carbon\Carbon::createFromTimestamp($activitie['date_event'])->format($this->format); @endphp</span>
                             </div>
                         </div>
                     </div>

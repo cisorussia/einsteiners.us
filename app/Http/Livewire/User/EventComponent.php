@@ -76,7 +76,7 @@ class EventComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
         
-        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->timestamp;
         
         $user = Auth::user();
         $this->validate([
@@ -142,7 +142,7 @@ class EventComponent extends Component
         $date_after = Carbon::today()->format('Y-m-d');
         $date_before = Carbon::today()->addDays(60)->format('Y-m-d');
 
-        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->format('Y-m-d');
+        $this->date_event = Carbon::createFromFormat($this->format, $this->date_event)->timestamp;
 
         if ($this->upgradeUpload) {
             $this->validate([
